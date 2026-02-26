@@ -105,6 +105,9 @@ async def send_verification_code(request: schemas.AuthCodeRequest, db: AsyncSess
     await db.commit()
     
     # Send HTML email
+    frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5555").rstrip("/")
+    logo_url = f"{frontend_url}/logo.jpg"
+
     subject = "Ваш код авторизации — ООО «НИКА»"
     plain_body = f"Ваш код для входа: {code}\nКод действителен 10 минут.\n\nЕсли вы не запрашивали код — проигнорируйте это письмо."
     html_body = f"""
@@ -124,7 +127,7 @@ async def send_verification_code(request: schemas.AuthCodeRequest, db: AsyncSess
         <tr>
           <td style="background:linear-gradient(135deg,#0c1445 0%,#1e3a8a 60%,#1e40af 100%);border-radius:16px 16px 0 0;padding:36px 40px;text-align:center;">
             <div style="margin-bottom: 20px;">
-              <img src="http://localhost/logo.jpg" alt="НИКА" style="width: 120px; height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" />
+              <img src="{logo_url}" alt="НИКА" style="width: 120px; height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" />
             </div>
             <div style="display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:10px 16px;margin-bottom:16px;">
               <span style="color:#ffffff;font-size:18px;font-weight:800;letter-spacing:0.5px;">ООО «НИКА»</span>

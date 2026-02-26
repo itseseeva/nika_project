@@ -1,8 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Minus, Plus } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
-import { useAuthStore } from '../store/useAuthStore';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 interface AddToCartButtonProps {
     product: any;
@@ -11,9 +9,6 @@ interface AddToCartButtonProps {
 
 export function AddToCartButton({ product, compact = true }: AddToCartButtonProps) {
     const { items, addItem, updateQuantity } = useCartStore();
-    const { token } = useAuthStore();
-    const navigate = useNavigate();
-    const location = useLocation();
 
     const cartItem = items.find(item => item.id === product.id);
     const quantity = cartItem?.quantity || 0;
@@ -21,11 +16,6 @@ export function AddToCartButton({ product, compact = true }: AddToCartButtonProp
     const handleAdd = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        if (!token) {
-            // Плавный редирект на страницу входа с сохранением текущего пути
-            navigate('/login', { state: { from: location.pathname } });
-            return;
-        }
         addItem(product, 1, false);
     };
 

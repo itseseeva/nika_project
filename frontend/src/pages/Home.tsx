@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, ShieldCheck, Truck, Package } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Truck, Package, Eye, EyeOff } from 'lucide-react';
 import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import { api } from '../utils/api';
 import { AddToCartButton } from '../components/AddToCartButton';
@@ -31,6 +31,17 @@ export function Home() {
         try {
             const result = await api.toggleProductHide(productId);
             setBestsellers(bestsellers.map(p => p.id === productId ? { ...p, is_hidden: result.is_hidden } : p));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleToggleCategoryHide = async (e: React.MouseEvent, catId: number) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            const result = await api.toggleCategoryHide(catId);
+            setCategories(categories.map(c => c.id === catId ? { ...c, is_hidden: result.is_hidden } : c));
         } catch (error) {
             console.error(error);
         }
@@ -353,7 +364,7 @@ export function Home() {
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
                             {/* Динамические категории из БД */}
                             {categories
-                                .filter((c: any) => !c.is_hidden)
+                                .filter((c: any) => (user?.is_admin || !c.is_hidden))
                                 .map((cat: any, i) => {
                                     let bgImage = '';
                                     let desc = '';
@@ -387,11 +398,21 @@ export function Home() {
                                             whileInView={{ opacity: 1, scale: 1, y: 0 }}
                                             viewport={{ once: true, margin: "-50px" }}
                                             transition={{ duration: 0.8, delay: i * 0.2, type: "spring", stiffness: 60 }}
+                                            className={cat.is_hidden ? 'opacity-60 grayscale-[0.5]' : ''}
                                         >
                                             <Link
                                                 to={`/catalog?category=${cat.id}`}
                                                 className="group block relative rounded-3xl overflow-hidden bg-gray-900 aspect-[3/4] shadow-lg hover:shadow-2xl transition-all duration-500 transform-gpu"
                                             >
+                                                {user?.is_admin && (
+                                                    <button
+                                                        onClick={(e) => handleToggleCategoryHide(e, cat.id)}
+                                                        className="absolute top-3 right-3 z-30 p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-colors"
+                                                        title={cat.is_hidden ? "Показать" : "Скрыть"}
+                                                    >
+                                                        {cat.is_hidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                                    </button>
+                                                )}
                                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
                                                 <motion.img
                                                     initial={{ scale: 1.3, filter: "blur(10px)" }}

@@ -6,6 +6,7 @@ import {
     ShieldCheck, Truck, Package, Users, ArrowRight
 } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
+import { useCartStore } from '../store/useCartStore';
 import { api } from '../utils/api';
 
 async function getGoogleAuthUrl(): Promise<string> {
@@ -297,9 +298,16 @@ export function LoginPage() {
     const [tab, setTab] = useState<'login' | 'register'>('login');
     const [googleLoading, setGoogleLoading] = useState(false);
 
+    const { setIsOpen } = useCartStore();
+
     useEffect(() => {
-        if (user) navigate(from, { replace: true });
-    }, [user, navigate, from]);
+        if (user) {
+            if ((location.state as any)?.openCart) {
+                setIsOpen(true);
+            }
+            navigate(from, { replace: true });
+        }
+    }, [user, navigate, from, setIsOpen, location.state]);
 
     const handleToken = async (accessToken: string) => {
         setToken(accessToken);

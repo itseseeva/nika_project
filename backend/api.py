@@ -233,13 +233,13 @@ async def chat_with_aleksey(request: ChatRequest):
 
     headers = {
         "Authorization": f"Bearer {openrouter_key}",
-        "HTTP-Referer": "http://localhost:5173", # Замените на реальный домен
+        "HTTP-Referer": os.getenv("FRONTEND_URL", "https://nikasolutions.shop"),
         "X-Title": "NIKA B2B", 
         "Content-Type": "application/json"
     }
     
     payload = {
-        "model": "meta-llama/llama-3.3-70b-instruct:free",
+        "model": "openrouter/auto",
         "messages": api_messages,
         "temperature": 0.5 
     }

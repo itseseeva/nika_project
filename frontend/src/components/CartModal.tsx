@@ -3,13 +3,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '../store/useCartStore';
+import { useAuthStore } from '../store/useAuthStore';
+import { useLocation } from 'react-router-dom';
 
 export function CartModal() {
     const { items, isOpen, setIsOpen, updateQuantity, removeItem, totalPrice } = useCartStore();
+    const { user } = useAuthStore();
     const [showError, setShowError] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleCheckout = () => {
+        if (!user) {
+            setIsOpen(false);
+            navigate('/login', { state: { from: location.pathname, openCart: true } });
+            return;
+        }
         setShowError(true);
     };
 
