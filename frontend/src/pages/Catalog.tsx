@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Filter } from 'lucide-react';
+import { Filter, Trash2 } from 'lucide-react';
 import { api } from '../utils/api';
 import { AddToCartButton } from '../components/AddToCartButton';
 import { useAuthStore } from '../store/useAuthStore';
@@ -23,6 +23,22 @@ export function Catalog() {
             setProducts(products.map(p => p.id === productId ? { ...p, is_hidden: result.is_hidden } : p));
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const handleDeleteCategory = async (e: React.MouseEvent, categoryId: number) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!window.confirm('Вы уверены, что хотите удалить эту категорию?')) return;
+        try {
+            await api.deleteCategory(categoryId);
+            setCategories(categories.filter(c => c.id !== categoryId));
+            if (params.get('category') === String(categoryId)) {
+                setParams({});
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Ошибка при удалении категории');
         }
     };
 
@@ -80,13 +96,24 @@ export function Catalog() {
                                     </button>
                                 </li>
                                 {categories.map((cat) => (
-                                    <li key={cat.id} className="flex-shrink-0">
-                                        <button
-                                            onClick={() => setCategoryFilter(cat.id)}
-                                            className={`px-4 py-2 lg:p-0 lg:text-left w-full transition-colors rounded-full lg:rounded-none border lg:border-none whitespace-nowrap ${categoryId === String(cat.id) ? 'bg-blue-600 text-white lg:bg-transparent lg:text-blue-600 font-semibold border-blue-600' : 'text-gray-600 hover:text-gray-900 border-gray-200'}`}
-                                        >
-                                            {cat.name}
-                                        </button>
+                                    <li key={cat.id} className="flex-shrink-0 group/cat">
+                                        <div className="flex items-center justify-between gap-2">
+                                            <button
+                                                onClick={() => setCategoryFilter(cat.id)}
+                                                className={`flex-1 px-4 py-2 lg:p-0 lg:text-left transition-colors rounded-full lg:rounded-none border lg:border-none whitespace-nowrap ${categoryId === String(cat.id) ? 'bg-blue-600 text-white lg:bg-transparent lg:text-blue-600 font-semibold border-blue-600' : 'text-gray-600 hover:text-gray-900 border-gray-200'}`}
+                                            >
+                                                {cat.name}
+                                            </button>
+                                            {user?.is_admin && (
+                                                <button
+                                                    onClick={(e) => handleDeleteCategory(e, cat.id)}
+                                                    className="opacity-0 group-hover/cat:opacity-100 transition-opacity p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                                                    title="Удалить категорию"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            )}
+                                        </div>
                                     </li>
                                 ))}
                             </ul>

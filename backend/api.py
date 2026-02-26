@@ -27,6 +27,22 @@ async def read_categories(db: AsyncSession = Depends(get_db)):
     categories = await crud.get_categories(db)
     return categories
 
+@router.delete("/categories/{category_id}")
+async def delete_category(category_id: int, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    
+    from sqlalchemy.future import select
+    result = await db.execute(select(models.Category).filter(models.Category.id == category_id))
+    category = result.scalar_one_or_none()
+    
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+        
+    await db.delete(category)
+    await db.commit()
+    return {"message": "Category deleted", "id": category_id}
+
 @router.get("/products", response_model=List[schemas.Product])
 async def read_products(category_id: int = None, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user_optional)):
     is_admin = current_user.is_admin if current_user else False

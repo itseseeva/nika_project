@@ -89,4 +89,12 @@ export const api = {
         }
         return res.json();
     },
+    deleteCategory: async (categoryId: number) => {
+        const res = await fetch(`${API_BASE}/categories/${categoryId}`, {
+            method: 'DELETE',
+            headers: getHeaders()
+        });
+        if (!res.ok) throw new Error('Failed to delete category');
+        return res.json();
+    },
 };
