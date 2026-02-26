@@ -373,7 +373,10 @@ async def startup():
     _copy_auto_photos()
 
     # Добавляем новые категории и товары (только если ещё нет)
-    await _seed_auto_categories()
+    try:
+        await _seed_auto_categories()
+    except Exception as e:
+        print(f"[STARTUP] Ошибка при сидировании БД (возможно, таблицы еще не созданы Alembic): {e}")
 
 
 @app.get("/")

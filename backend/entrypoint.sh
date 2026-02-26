@@ -13,5 +13,8 @@ fi
 echo "[ENTRYPOINT] Applying migrations..."
 alembic upgrade head
 
+echo "[ENTRYPOINT] Syncing SQLite data to PostgreSQL if exists..."
+python sync_db.py
+
 echo "[ENTRYPOINT] Migrations complete. Starting application..."
 exec "$@"
