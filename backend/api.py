@@ -200,13 +200,14 @@ async def chat_with_aleksey(request: ChatRequest):
     }
     
     payload = {
-        "model": "google/gemini-2.5-flash",
+        "model": "mistralai/mistral-7b-instruct:free",
         "messages": api_messages,
-        "temperature": 0.5 # Оптимальная температура
+        "temperature": 0.5 # Оптимальная температура для Mistral
     }
 
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        proxy_url = "http://h95NMD:gZd3bf@196.18.12.183:8000"
+        async with httpx.AsyncClient(timeout=30.0, proxy=proxy_url) as client:
             response = await client.post(
                 "https://openrouter.ai/api/v1/chat/completions",
                 json=payload,

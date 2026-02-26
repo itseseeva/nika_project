@@ -76,9 +76,63 @@ async def _seed_auto_categories():
     from sqlalchemy.future import select
 
     async with AsyncSessionLocal() as db:
+        # ── НОВЫЕ КАТЕГОРИИ
+        for cat_data in [
+            {"name": "Спецодежда и СИЗ", "slug": "specodezhda-i-siz"},
+            {"name": "Упаковочные материалы", "slug": "upakovochnye-materialy"},
+            {"name": "Масла и Смазки", "slug": "masla-i-smazki"},
+            {"name": "Технические жидкости", "slug": "tekhnicheskie-zhidkosti"}
+        ]:
+            res = await db.execute(select(models.Category).where(models.Category.slug == cat_data["slug"]))
+            if not res.scalar_one_or_none():
+                cat = models.Category(name=cat_data["name"], slug=cat_data["slug"])
+                db.add(cat)
+                await db.flush()
+                
+                # Добавляем товары для новых категорий
+                if cat_data["slug"] == "masla-i-smazki":
+                    db.add_all([
+                        models.Product(
+                            name="Масло моторное 5W-40",
+                            slug="maslo-motornoe-5w-40",
+                            price=3500.0,
+                            category_id=cat.id,
+                            description="Высококачественное моторное масло для современных двигателей.",
+                            attributes={"Вязкость": "5W-40"}
+                        ),
+                        models.Product(
+                            name="Масло трансмиссионное 75W-90",
+                            slug="maslo-transmissionnoe-75w-90",
+                            price=1200.0,
+                            category_id=cat.id,
+                            description="Трансмиссионное масло для механических коробок передач.",
+                            attributes={"Вязкость": "75W-90"}
+                        )
+                    ])
+                elif cat_data["slug"] == "tekhnicheskie-zhidkosti":
+                    db.add_all([
+                        models.Product(
+                            name="Омывайка зимняя -25°C",
+                            slug="omyvayka-zimnyaya-25c",
+                            price=500.0,
+                            category_id=cat.id,
+                            description="Незамерзающая жидкость для стеклоомывателя.",
+                            attributes={"Температура": "-25°C"}
+                        ),
+                        models.Product(
+                            name="Тормозная жидкость DOT 4",
+                            slug="tormoznaya-zhidkost-dot-4",
+                            price=800.0,
+                            category_id=cat.id,
+                            description="Тормозная жидкость стандарта DOT 4.",
+                            attributes={"Стандарт": "DOT 4"}
+                        )
+                    ])
+
         # Проверяем — уже существуют?
         res = await db.execute(select(models.Category).where(models.Category.slug == "auto-consumables"))
         if res.scalar_one_or_none():
+            await db.commit()
             return  # уже добавлено
 
         # ── Категории
@@ -276,62 +330,12 @@ async def _seed_auto_categories():
                 attributes={"Бренд": "Metaco", "Марка": "Hyundai CRETA", "Год": "от 2016", "Сторона": "Правая", "Кол-во": "2 шт."},
             ),
         ]
-
-        # ── НОВЫЕ КАТЕГОРИИ
-        for cat_data in [
-            {"name": "Спецодежда и СИЗ", "slug": "specodezhda-i-siz"},
-            {"name": "Упаковочные материалы", "slug": "upakovochnye-materialy"},
-            {"name": "Масла и Смазки", "slug": "masla-i-smazki"},
-            {"name": "Технические жидкости", "slug": "tekhnicheskie-zhidkosti"}
-        ]:
-            res = await db.execute(select(models.Category).where(models.Category.slug == cat_data["slug"]))
-            if not res.scalar_one_or_none():
-                cat = models.Category(name=cat_data["name"], slug=cat_data["slug"])
-                db.add(cat)
-                await db.flush()
-                
-                # Добавляем товары для новых категорий
-                if cat_data["slug"] == "masla-i-smazki":
-                    db.add_all([
-                        models.Product(
-                            name="Масло моторное 5W-40",
-                            slug="maslo-motornoe-5w-40",
-                            price=3500.0,
-                            category_id=cat.id,
-                            description="Высококачественное моторное масло для современных двигателей.",
-                            attributes={"Вязкость": "5W-40"}
-                        ),
-                        models.Product(
-                            name="Масло трансмиссионное 75W-90",
-                            slug="maslo-transmissionnoe-75w-90",
-                            price=1200.0,
-                            category_id=cat.id,
-                            description="Трансмиссионное масло для механических коробок передач.",
-                            attributes={"Вязкость": "75W-90"}
-                        )
-                    ])
-                elif cat_data["slug"] == "tekhnicheskie-zhidkosti":
-                    db.add_all([
-                        models.Product(
-                            name="Омывайка зимняя -25°C",
-                            slug="omyvayka-zimnyaya-25c",
-                            price=500.0,
-                            category_id=cat.id,
-                            description="Незамерзающая жидкость для стеклоомывателя.",
-                            attributes={"Температура": "-25°C"}
-                        ),
-                        models.Product(
-                            name="Тормозная жидкость DOT 4",
-                            slug="tormoznaya-zhidkost-dot-4",
-                            price=800.0,
-                            category_id=cat.id,
-                            description="Тормозная жидкость стандарта DOT 4.",
-                            attributes={"Стандарт": "DOT 4"}
-                        )
-                    ])
+        
+        db.add_all(consumables)
+        db.add_all(autoparts)
 
         await db.commit()
-        print(f"[SEED] Добавлено: 2 категории + {len(consumables)} расходных материалов + {len(autoparts)} запчастей + новые категории")
+        print(f"[SEED] Завершено. Проверка/добавление новых категорий и товаров выполнено.")
 
 
 @app.on_event("startup")
