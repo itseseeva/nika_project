@@ -10,11 +10,11 @@ if [ -z "$(ls -A alembic/versions/*.py 2>/dev/null)" ]; then
     alembic revision --autogenerate -m "Initial migration"
 fi
 
-echo "[ENTRYPOINT] Applying migrations..."
-alembic upgrade head
+# echo "[ENTRYPOINT] Applying migrations..."
+# alembic upgrade head
 
-echo "[ENTRYPOINT] Syncing SQLite data to PostgreSQL if exists..."
-python sync_db.py
+# echo "[ENTRYPOINT] Syncing SQLite data to PostgreSQL if exists..."
+# python sync_db.py
 
 echo "[ENTRYPOINT] Migrations complete. Starting application..."
 exec "$@"
