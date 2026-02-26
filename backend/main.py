@@ -96,6 +96,7 @@ async def _seed_auto_categories():
                             name="Масло моторное 5W-40",
                             slug="maslo-motornoe-5w-40",
                             price=3500.0,
+                            image_urls=["/products/Масло моторное 5W-40.jpg"],
                             category_id=cat.id,
                             description="Высококачественное моторное масло для современных двигателей.",
                             attributes={"Вязкость": "5W-40"}
@@ -104,6 +105,7 @@ async def _seed_auto_categories():
                             name="Масло трансмиссионное 75W-90",
                             slug="maslo-transmissionnoe-75w-90",
                             price=1200.0,
+                            image_urls=["/products/Масло трансмиссионное 75W-90.jpg"],
                             category_id=cat.id,
                             description="Трансмиссионное масло для механических коробок передач.",
                             attributes={"Вязкость": "75W-90"}
@@ -115,6 +117,7 @@ async def _seed_auto_categories():
                             name="Омывайка зимняя -25°C",
                             slug="omyvayka-zimnyaya-25c",
                             price=500.0,
+                            image_urls=["/products/Омывайка зимняя -25°C.jpg"],
                             category_id=cat.id,
                             description="Незамерзающая жидкость для стеклоомывателя.",
                             attributes={"Температура": "-25°C"}
@@ -123,9 +126,34 @@ async def _seed_auto_categories():
                             name="Тормозная жидкость DOT 4",
                             slug="tormoznaya-zhidkost-dot-4",
                             price=800.0,
+                            image_urls=["/products/Тормозная жидкость DOT 4.jpg"],
                             category_id=cat.id,
                             description="Тормозная жидкость стандарта DOT 4.",
                             attributes={"Стандарт": "DOT 4"}
+                        )
+                    ])
+                elif cat_data["slug"] == "specodezhda-i-siz":
+                    db.add_all([
+                        models.Product(
+                            name="Перчатки рабочие ХБ с ПВХ",
+                            slug="perchatki-rabochie-hb",
+                            price=50.0,
+                            image_urls=["/products/Перчатки ХБ.jpg"],
+                            category_id=cat.id,
+                            description="Рабочие перчатки с ПВХ покрытием для ремонта.",
+                            attributes={"Размер": "Универсальный"}
+                        )
+                    ])
+                elif cat_data["slug"] == "upakovochnye-materialy":
+                    db.add_all([
+                        models.Product(
+                            name="Пленка стрейч прозрачная",
+                            slug="plenka-streych",
+                            price=350.0,
+                            image_urls=["/products/Пленка стрейч.jpg"],
+                            category_id=cat.id,
+                            description="Пленка для упаковки и защиты деталей.",
+                            attributes={"Длина": "300м"}
                         )
                     ])
 
