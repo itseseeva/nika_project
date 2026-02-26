@@ -26,7 +26,7 @@ target_metadata = Base.metadata
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode."""
-    url = os.getenv("DATABASE_URL", config.get_main_option("sqlalchemy.url", "postgresql+asyncpg://postgres:Kohkau11999@localhost:5432/nika"))
+    url = os.getenv("DATABASE_URL", config.get_main_option("sqlalchemy.url", "sqlite+aiosqlite:///./data/nika.db"))
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -45,7 +45,7 @@ def do_run_migrations(connection: Connection) -> None:
 async def run_async_migrations() -> None:
     """In this scenario we need to create an Engine
     and associate a connection with the context."""
-    db_url = os.getenv("DATABASE_URL", config.get_main_option("sqlalchemy.url", "postgresql+asyncpg://postgres:Kohkau11999@localhost:5432/nika"))
+    db_url = os.getenv("DATABASE_URL", config.get_main_option("sqlalchemy.url", "sqlite+aiosqlite:///./data/nika.db"))
     configuration = config.get_section(config.config_ini_section, {})
     configuration["sqlalchemy.url"] = db_url
     

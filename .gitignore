@@ -33,10 +33,7 @@ frontend/.env.production.local
 frontend/tsconfig.tsbuildinfo
 
 # Databases
-*.db
-*.sqlite3
-nika.db
-backend/nika.db
+# *.db (Removed to include nika.db in Git)
 
 # Logs and temporary files
 *.log

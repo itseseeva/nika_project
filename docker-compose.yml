@@ -12,27 +12,8 @@ services:
       - ./frontend/public/products:/frontend/public/products
       - ./данные nika:/app/данные nika:ro
       - ./новые_фото:/app/новые_фото:ro
-    environment:
-      - DATABASE_URL=postgresql+asyncpg://postgres:Kohkau11999@postgres:5432/nika
     env_file:
       - .env
-    depends_on:
-      - postgres
-    networks:
-      - nika-network
-
-  postgres:
-    image: postgres:15-alpine
-    container_name: nika-postgres
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Kohkau11999
-      - POSTGRES_DB=nika
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     networks:
       - nika-network
 
@@ -60,5 +41,3 @@ networks:
   nika-network:
     driver: bridge
 
-volumes:
-  pgdata:
