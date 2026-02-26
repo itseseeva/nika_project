@@ -363,16 +363,16 @@ export function Home() {
                                         bgImage = 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&q=80&w=800';
                                         desc = 'Оригинальные и надёжные комплектующие для коммерческого транспорта и спецтехники.';
                                     } else if (cat.name.includes('Упаковочные') || cat.name.includes('упаковоч')) {
-                                        bgImage = '/упаковочные_материалы.jpg';
+                                        bgImage = encodeURI('/упаковочные_материалы.jpg');
                                         desc = 'Всё необходимое для безопасной транспортировки: гофрокороба, стрейч-пленка, скотч.';
                                     } else if (cat.name.includes('Расходные') || cat.name.includes('расходн')) {
-                                        bgImage = '/расходные_материалы.jpg';
+                                        bgImage = encodeURI('/расходные_материалы.jpg');
                                         desc = 'Масла, антифризы, фильтры и другие расходные материалы для вашего автопарка.';
                                     } else if (cat.name.includes('Масла') || cat.name.includes('Смазки')) {
                                         bgImage = encodeURI('/products/Масла и Смазки.jpg');
                                         desc = 'Высококачественные моторные и трансмиссионные масла для защиты вашего двигателя.';
                                     } else if (cat.name.includes('Технические жидкости') || cat.name.includes('жидкости')) {
-                                        bgImage = encodeURI('/products/Технические жидкости.jpg');
+                                        bgImage = encodeURI('/products/технические жидкости.jpg');
                                         desc = 'Омывайки, тормозные жидкости и другие важные технические составы.';
                                     } else {
                                         bgImage = 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800';

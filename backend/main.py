@@ -279,6 +279,8 @@ async def _seed_auto_categories():
 
         # ── НОВЫЕ КАТЕГОРИИ
         for cat_data in [
+            {"name": "Спецодежда и СИЗ", "slug": "specodezhda-i-siz"},
+            {"name": "Упаковочные материалы", "slug": "upakovochnye-materialy"},
             {"name": "Масла и Смазки", "slug": "masla-i-smazki"},
             {"name": "Технические жидкости", "slug": "tekhnicheskie-zhidkosti"}
         ]:
