@@ -15,7 +15,11 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Копируем остальной код
 COPY . .
 
+# Makes entrypoint executable
+RUN chmod +x entrypoint.sh
+
 # При запуске, создаем пустую директорию для базы данных, если её нет, хотя мы будем мапить её через volume
 EXPOSE 8000
 
+ENTRYPOINT ["./entrypoint.sh"]
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

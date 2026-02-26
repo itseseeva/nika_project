@@ -367,28 +367,7 @@ async def _seed_auto_categories():
 
 @app.on_event("startup")
 async def startup():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-        try:
-            from sqlalchemy import text
-            await conn.execute(text("ALTER TABLE products ADD COLUMN is_hidden BOOLEAN DEFAULT 0"))
-        except Exception:
-            pass
-        try:
-            from sqlalchemy import text
-            await conn.execute(text("ALTER TABLE users ADD COLUMN hashed_password TEXT"))
-        except Exception:
-            pass
-        try:
-            from sqlalchemy import text
-            await conn.execute(text("UPDATE users SET is_admin = 1 WHERE email = 'eseeva228@gmail.com'"))
-        except Exception:
-            pass
-        try:
-            from sqlalchemy import text
-            await conn.execute(text("DELETE FROM products WHERE slug = 'fary-pravye-metaco-creta-2016-kit'"))
-        except Exception:
-            pass
+    # Schema generation is now handled by Alembic.
 
     # Копируем фото из новые_фото → frontend/public/products
     _copy_auto_photos()

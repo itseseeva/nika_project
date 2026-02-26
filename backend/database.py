@@ -2,8 +2,8 @@ import os
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import declarative_base
 
-# SQLite connection string for simple local development or from environment variables
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./nika.db")
+# Connection string for PostgreSQL
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:Kohkau11999@localhost:5432/nika")
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 
