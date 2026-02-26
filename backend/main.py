@@ -371,8 +371,28 @@ async def _seed_auto_categories():
         print(f"[SEED] Завершено. Проверка/добавление новых категорий и товаров выполнено.")
 
 
+async def _check_and_add_category_hidden_column():
+    """Добавляет колонку is_hidden в таблицу categories, если её нет (для SQLite)."""
+    from sqlalchemy import inspect, text
+    async with engine.connect() as conn:
+        def get_columns(connection):
+            inspector = inspect(connection)
+            cols = inspector.get_columns("categories")
+            return [c['name'] for c in cols]
+        
+        column_names = await conn.run_sync(get_columns)
+        if "is_hidden" not in column_names:
+            print("[DB-AUTO] Adding column 'is_hidden' to 'categories' table...")
+            await conn.execute(text("ALTER TABLE categories ADD COLUMN is_hidden BOOLEAN DEFAULT 0"))
+            await conn.commit()
+
 @app.on_event("startup")
 async def startup():
+    # 0. Проверяем и добавляем колонку, если нужно
+    try:
+        await _check_and_add_category_hidden_column()
+    except Exception as e:
+        print(f"[DB-AUTO] Error adding column: {e}")
     # Schema generation is now handled by Alembic.
 
     # Копируем фото из новые_фото → frontend/public/products

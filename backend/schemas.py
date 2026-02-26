@@ -5,6 +5,7 @@ from datetime import datetime
 class CategoryBase(BaseModel):
     name: str
     slug: str
+    is_hidden: Optional[bool] = False
 
 class CategoryCreate(CategoryBase):
     pass

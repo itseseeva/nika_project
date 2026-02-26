@@ -11,7 +11,7 @@ const GAP = 16;
 const TRANSITION_MS = 550;
 
 export function Home() {
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState<any[]>([]);
     const [bestsellers, setBestsellers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -353,6 +353,7 @@ export function Home() {
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
                             {/* Динамические категории из БД */}
                             {categories
+                                .filter((c: any) => !c.is_hidden)
                                 .map((cat: any, i) => {
                                     let bgImage = '';
                                     let desc = '';

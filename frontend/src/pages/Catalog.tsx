@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Filter, Trash2 } from 'lucide-react';
+import { Filter, Trash2, Eye, EyeOff } from 'lucide-react';
 import { api } from '../utils/api';
 import { AddToCartButton } from '../components/AddToCartButton';
 import { useAuthStore } from '../store/useAuthStore';
@@ -26,7 +26,19 @@ export function Catalog() {
         }
     };
 
+    const handleToggleCategoryHide = async (e: React.MouseEvent, catId: number) => {
+        e.preventDefault();
+        e.stopPropagation();
+        try {
+            const result = await api.toggleCategoryHide(catId);
+            setCategories(categories.map(c => c.id === catId ? { ...c, is_hidden: result.is_hidden } : c));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const handleDeleteCategory = async (e: React.MouseEvent, categoryId: number) => {
+        // ...
         e.preventDefault();
         e.stopPropagation();
         if (!window.confirm('Вы уверены, что хотите удалить эту категорию?')) return;
@@ -105,13 +117,22 @@ export function Catalog() {
                                                 {cat.name}
                                             </button>
                                             {user?.is_admin && (
-                                                <button
-                                                    onClick={(e) => handleDeleteCategory(e, cat.id)}
-                                                    className="opacity-0 group-hover/cat:opacity-100 transition-opacity p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
-                                                    title="Удалить категорию"
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
+                                                <div className="flex items-center gap-1 opacity-0 group-hover/cat:opacity-100 transition-opacity">
+                                                    <button
+                                                        onClick={(e) => handleToggleCategoryHide(e, cat.id)}
+                                                        className={`p-1.5 rounded-lg transition-colors ${cat.is_hidden ? 'text-gray-400 hover:text-gray-600 hover:bg-gray-100' : 'text-blue-400 hover:text-blue-600 hover:bg-blue-50'}`}
+                                                        title={cat.is_hidden ? "Показать категорию" : "Скрыть категорию"}
+                                                    >
+                                                        {cat.is_hidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => handleDeleteCategory(e, cat.id)}
+                                                        className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg"
+                                                        title="Удалить категорию"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                </div>
                                             )}
                                         </div>
                                     </li>

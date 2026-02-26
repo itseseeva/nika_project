@@ -23,9 +23,32 @@ router = APIRouter()
 router.include_router(auth.router)
 
 @router.get("/categories", response_model=List[schemas.Category])
-async def read_categories(db: AsyncSession = Depends(get_db)):
-    categories = await crud.get_categories(db)
-    return categories
+async def read_categories(db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user_optional)):
+    is_admin = current_user.is_admin if current_user else False
+    
+    from sqlalchemy.future import select
+    if is_admin:
+        result = await db.execute(select(models.Category))
+    else:
+        result = await db.execute(select(models.Category).where(models.Category.is_hidden == False))
+    return result.scalars().all()
+
+@router.post("/categories/{category_id}/toggle_hide")
+async def toggle_category_hide(category_id: int, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    
+    from sqlalchemy.future import select
+    result = await db.execute(select(models.Category).filter(models.Category.id == category_id))
+    category = result.scalar_one_or_none()
+    
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+        
+    category.is_hidden = not (category.is_hidden or False)
+    await db.commit()
+    await db.refresh(category)
+    return {"message": "Visibility toggled", "is_hidden": category.is_hidden}
 
 @router.delete("/categories/{category_id}")
 async def delete_category(category_id: int, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
@@ -216,14 +239,13 @@ async def chat_with_aleksey(request: ChatRequest):
     }
     
     payload = {
-        "model": "google/gemini-2.0-flash-exp:free",
+        "model": "meta-llama/llama-3.3-70b-instruct:free",
         "messages": api_messages,
         "temperature": 0.5 
     }
 
     try:
-        proxy_url = "http://h95NMD:gZd3bf@196.18.12.183:8000"
-        async with httpx.AsyncClient(timeout=30.0, proxy=proxy_url) as client:
+        async with httpx.AsyncClient(timeout=30.0) as client:
             response = await client.post(
                 "https://openrouter.ai/api/v1/chat/completions",
                 json=payload,

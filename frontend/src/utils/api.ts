@@ -97,4 +97,12 @@ export const api = {
         if (!res.ok) throw new Error('Failed to delete category');
         return res.json();
     },
+    toggleCategoryHide: async (categoryId: number) => {
+        const res = await fetch(`${API_BASE}/categories/${categoryId}/toggle_hide`, {
+            method: 'POST',
+            headers: getHeaders()
+        });
+        if (!res.ok) throw new Error('Failed to toggle category hide');
+        return res.json();
+    },
 };
