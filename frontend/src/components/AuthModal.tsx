@@ -3,7 +3,7 @@ import { X, Mail, KeyRound, Loader2 } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 
 // Determine base API URL for the backend
-const API_URL = (import.meta as any).env.VITE_API_URL || 'http://localhost:8000/api';
+const API_URL = (import.meta as any).env.VITE_API_URL || '/api';
 
 export function AuthModal() {
     const { isAuthModalOpen, setAuthModalOpen, setToken, setUser } = useAuthStore();

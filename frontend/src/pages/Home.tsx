@@ -276,13 +276,13 @@ export function Home() {
                                         {/* Фото квадратное, без пустых полос */}
                                         <Link to={`/product/${item.slug}`} className="relative block group/img bg-white" style={{ aspectRatio: '1 / 1' }}>
                                             <img
-                                                src={item.image_urls?.[0] || 'https://placehold.co/400x400/f8fafc/31343C?text=No+Photo'}
+                                                src={item.image_urls?.[0] ? encodeURI(item.image_urls[0]) : 'https://placehold.co/400x400/f8fafc/31343C?text=No+Photo'}
                                                 alt={item.name}
                                                 className={`absolute inset-0 w-full h-full object-contain p-2 transition-transform duration-500 group-hover/img:scale-[1.05] ${item.image_urls?.length > 1 ? 'animate-crossfade' : ''}`}
                                             />
                                             {item.image_urls?.length > 1 && (
                                                 <img
-                                                    src={item.image_urls[1]}
+                                                    src={encodeURI(item.image_urls[1])}
                                                     alt={`${item.name} - 2`}
                                                     className="absolute inset-0 w-full h-full object-contain p-2 transition-transform duration-500 group-hover/img:scale-[1.05] animate-crossfade-reverse"
                                                 />
@@ -353,7 +353,6 @@ export function Home() {
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
                             {/* Динамические категории из БД */}
                             {categories
-                                .filter((cat: any) => !cat.name.includes('Технические жидкости') && !cat.name.includes('жидкости'))
                                 .map((cat: any, i) => {
                                     let bgImage = '';
                                     let desc = '';
@@ -372,6 +371,9 @@ export function Home() {
                                     } else if (cat.name.includes('Масла') || cat.name.includes('Смазки')) {
                                         bgImage = encodeURI('/products/Масла и Смазки.jpg');
                                         desc = 'Высококачественные моторные и трансмиссионные масла для защиты вашего двигателя.';
+                                    } else if (cat.name.includes('Технические жидкости') || cat.name.includes('жидкости')) {
+                                        bgImage = encodeURI('/products/Технические жидкости.jpg');
+                                        desc = 'Омывайки, тормозные жидкости и другие важные технические составы.';
                                     } else {
                                         bgImage = 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&q=80&w=800';
                                         desc = 'Всё необходимое для безопасной транспортировки: гофрокороба, стрейч-пленка, скотч.';

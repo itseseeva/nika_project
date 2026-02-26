@@ -117,13 +117,13 @@ export function Catalog() {
                                         <div className="relative overflow-hidden rounded-2xl bg-gray-100 aspect-[4/5] mb-3">
                                             <Link to={`/product/${product.slug}`} className="block w-full h-full group/img">
                                                 <img
-                                                    src={product.image_urls?.[0] || `https://placehold.co/400x500/e2e8f0/64748b?text=${encodeURIComponent(product.name)}`}
+                                                    src={product.image_urls?.[0] ? encodeURI(product.image_urls[0]) : `https://placehold.co/400x500/e2e8f0/64748b?text=${encodeURIComponent(product.name)}`}
                                                     alt={product.name}
                                                     className={`w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-[1.06] ${product.image_urls?.length > 1 ? 'animate-crossfade' : ''}`}
                                                 />
                                                 {product.image_urls?.length > 1 && (
                                                     <img
-                                                        src={product.image_urls[1]}
+                                                        src={encodeURI(product.image_urls[1])}
                                                         alt={`${product.name} - 2`}
                                                         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-[1.06] animate-crossfade-reverse"
                                                     />

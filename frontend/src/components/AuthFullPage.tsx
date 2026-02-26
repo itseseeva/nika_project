@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 
-const API_URL = (import.meta as any).env.VITE_API_URL || 'http://localhost:8000/api';
+const API_URL = (import.meta as any).env.VITE_API_URL || '/api';
 
 const FEATURES = [
     {

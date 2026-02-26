@@ -13,7 +13,7 @@ import { AuthFullPage } from './components/AuthFullPage';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 
-const API_URL = (import.meta as any).env.VITE_API_URL || 'http://localhost:8000/api';
+const API_URL = (import.meta as any).env.VITE_API_URL || '/api';
 
 function App() {
     const { token, setToken, setUser, logout } = useAuthStore();

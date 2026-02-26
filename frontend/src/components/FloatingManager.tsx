@@ -8,6 +8,8 @@ type Message = {
     content: string;
 };
 
+const API_URL = (import.meta as any).env.VITE_API_URL || '/api';
+
 export function FloatingManager() {
     const [isOpen, setIsOpen] = useState(false);
     const [hasUnread, setHasUnread] = useState(true);
@@ -52,7 +54,7 @@ export function FloatingManager() {
 
         try {
             // Отправляем запрос на наш бэкенд
-            const response = await fetch('http://localhost:8000/api/chat', {
+            const response = await fetch(`${API_URL}/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ messages: newMessages })

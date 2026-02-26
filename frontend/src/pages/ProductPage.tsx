@@ -131,7 +131,7 @@ export function ProductPage() {
                             <AnimatePresence mode="wait">
                                 <motion.img
                                     key={activeIdx}
-                                    src={images[activeIdx] || `https://placehold.co/700x700/f1f5f9/475569?text=${encodeURIComponent(product.name)}`}
+                                    src={images[activeIdx] ? encodeURI(images[activeIdx]) : `https://placehold.co/700x700/f1f5f9/475569?text=${encodeURIComponent(product.name)}`}
                                     alt={product.name}
                                     initial={{ opacity: 0, scale: 1.03 }}
                                     animate={{ opacity: 1, scale: 1 }}
@@ -160,7 +160,7 @@ export function ProductPage() {
                                             : 'border-gray-200 hover:border-blue-300'
                                             }`}
                                     >
-                                        <img src={url} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-contain p-1.5" />
+                                        <img src={encodeURI(url)} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-contain p-1.5" />
                                     </button>
 
                                     {/* Кнопка замены фото — иконка камеры снизу слева */}

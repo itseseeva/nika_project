@@ -335,6 +335,8 @@ async def google_callback(code: str, db: AsyncSession = Depends(get_db)):
         
         # Redirect to frontend with token
         frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5555")
+        # Ensure it has no trailing slash to avoid double slashes
+        frontend_url = frontend_url.rstrip("/")
         return RedirectResponse(url=f"{frontend_url}/?token={jwt_token}")
 
 from fastapi.security import OAuth2PasswordBearer
