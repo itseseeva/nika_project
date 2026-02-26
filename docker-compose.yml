@@ -8,14 +8,14 @@ services:
     container_name: nika-backend
     restart: always
     ports:
-      - "8000:8000" # Можно убрать внешний биндинг на проде, оставив только внутренний
+      - "8000:8000"
     volumes:
-      - ./backend/data:/app/data # Подключаем папку с БД вместо самого файла
-      - ./frontend/public/products:/frontend/public/products # Подключаем локальную папку с фото
-      - ./данные nika:/app/данные nika:ro # Подключаем базу знаний (только для чтения)
-      - ./новые_фото:/app/новые_фото:ro # Подключаем папку с новыми фото (только для чтения)
+      - ./backend/data:/app/data
+      - ./frontend/public/products:/frontend/public/products
+      - ./данные nika:/app/данные nika:ro
+      - ./новые_фото:/app/новые_фото:ro
     environment:
-      - DATABASE_URL=sqlite+aiosqlite:////app/data/nika.db # Обновленный URL для Docker
+      - DATABASE_URL=sqlite+aiosqlite:////app/data/nika.db
     env_file:
       - .env
     networks:
@@ -29,10 +29,12 @@ services:
     restart: always
     ports:
       - "80:80"
-      - "443:443" # В будущем для SSL
+      - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./frontend/public/products:/usr/share/nginx/html/products
+      # Прокидываем сертификаты внутрь контейнера
+      - /etc/letsencrypt:/etc/letsencrypt:ro 
     depends_on:
       - backend
     networks:
