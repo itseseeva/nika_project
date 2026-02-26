@@ -10,12 +10,12 @@ services:
     ports:
       - "8000:8000" # Можно убрать внешний биндинг на проде, оставив только внутренний
     volumes:
-      - ./backend/nika.db:/app/data/nika.db # Подключаем локальную базу данных
+      - ./backend/nika.db:/app/nika.db # Подключаем локальную базу данных
       - ./frontend/public/products:/frontend/public/products # Подключаем локальную папку с фото
       - ./данные nika:/app/данные nika:ro # Подключаем базу знаний (только для чтения)
       - ./новые_фото:/app/новые_фото:ro # Подключаем папку с новыми фото (только для чтения)
     environment:
-      - DATABASE_URL=sqlite+aiosqlite:////app/data/nika.db # Обновленный URL для Docker
+      - DATABASE_URL=sqlite+aiosqlite:///nika.db # Обновленный URL для Docker
     env_file:
       - .env
     networks:
