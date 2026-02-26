@@ -91,71 +91,77 @@ async def _seed_auto_categories():
                 
                 # Добавляем товары для новых категорий
                 if cat_data["slug"] == "masla-i-smazki":
-                    db.add_all([
-                        models.Product(
-                            name="Масло моторное 5W-40",
-                            slug="maslo-motornoe-5w-40",
-                            price=3500.0,
-                            image_urls=["/products/Масло моторное 5W-40.jpg"],
-                            category_id=cat.id,
-                            description="Высококачественное моторное масло для современных двигателей.",
-                            attributes={"Вязкость": "5W-40"}
-                        ),
-                        models.Product(
-                            name="Масло трансмиссионное 75W-90",
-                            slug="maslo-transmissionnoe-75w-90",
-                            price=1200.0,
-                            image_urls=["/products/Масло трансмиссионное 75W-90.jpg"],
-                            category_id=cat.id,
-                            description="Трансмиссионное масло для механических коробок передач.",
-                            attributes={"Вязкость": "75W-90"}
-                        )
-                    ])
+                    for p_data in [
+                        {
+                            "name": "Масло моторное 5W-40",
+                            "slug": "maslo-motornoe-5w-40",
+                            "price": 3500.0,
+                            "image_urls": ["/products/Масло моторное 5W-40.jpg"],
+                            "description": "Высококачественное моторное масло для современных двигателей.",
+                            "attributes": {"Вязкость": "5W-40"}
+                        },
+                        {
+                            "name": "Масло трансмиссионное 75W-90",
+                            "slug": "maslo-transmissionnoe-75w-90",
+                            "price": 1200.0,
+                            "image_urls": ["/products/Масло трансмиссионное 75W-90.jpg"],
+                            "description": "Трансмиссионное масло для механических коробок передач.",
+                            "attributes": {"Вязкость": "75W-90"}
+                        }
+                    ]:
+                        res_p = await db.execute(select(models.Product).where(models.Product.slug == p_data["slug"]))
+                        if not res_p.scalar_one_or_none():
+                            db.add(models.Product(**p_data, category_id=cat.id))
                 elif cat_data["slug"] == "tekhnicheskie-zhidkosti":
-                    db.add_all([
-                        models.Product(
-                            name="Омывайка зимняя -25°C",
-                            slug="omyvayka-zimnyaya-25c",
-                            price=500.0,
-                            image_urls=["/products/Омывайка зимняя -25°C.jpg"],
-                            category_id=cat.id,
-                            description="Незамерзающая жидкость для стеклоомывателя.",
-                            attributes={"Температура": "-25°C"}
-                        ),
-                        models.Product(
-                            name="Тормозная жидкость DOT 4",
-                            slug="tormoznaya-zhidkost-dot-4",
-                            price=800.0,
-                            image_urls=["/products/Тормозная жидкость DOT 4.jpg"],
-                            category_id=cat.id,
-                            description="Тормозная жидкость стандарта DOT 4.",
-                            attributes={"Стандарт": "DOT 4"}
-                        )
-                    ])
+                    for p_data in [
+                        {
+                            "name": "Омывайка зимняя -25°C",
+                            "slug": "omyvayka-zimnyaya-25c",
+                            "price": 500.0,
+                            "image_urls": ["/products/Омывайка зимняя -25°C.jpg"],
+                            "description": "Незамерзающая жидкость для стеклоомывателя.",
+                            "attributes": {"Температура": "-25°C"}
+                        },
+                        {
+                            "name": "Тормозная жидкость DOT 4",
+                            "slug": "tormoznaya-zhidkost-dot-4",
+                            "price": 800.0,
+                            "image_urls": ["/products/Тормозная жидкость DOT 4.jpg"],
+                            "description": "Тормозная жидкость стандарта DOT 4.",
+                            "attributes": {"Стандарт": "DOT 4"}
+                        }
+                    ]:
+                        res_p = await db.execute(select(models.Product).where(models.Product.slug == p_data["slug"]))
+                        if not res_p.scalar_one_or_none():
+                            db.add(models.Product(**p_data, category_id=cat.id))
                 elif cat_data["slug"] == "specodezhda-i-siz":
-                    db.add_all([
-                        models.Product(
-                            name="Перчатки рабочие ХБ с ПВХ",
-                            slug="perchatki-rabochie-hb",
-                            price=50.0,
-                            image_urls=["/products/Перчатки ХБ.jpg"],
-                            category_id=cat.id,
-                            description="Рабочие перчатки с ПВХ покрытием для ремонта.",
-                            attributes={"Размер": "Универсальный"}
-                        )
-                    ])
+                    for p_data in [
+                        {
+                            "name": "Перчатки рабочие ХБ с ПВХ",
+                            "slug": "perchatki-rabochie-hb",
+                            "price": 50.0,
+                            "image_urls": ["/products/Перчатки ХБ.jpg"],
+                            "description": "Рабочие перчатки с ПВХ покрытием для ремонта.",
+                            "attributes": {"Размер": "Универсальный"}
+                        }
+                    ]:
+                        res_p = await db.execute(select(models.Product).where(models.Product.slug == p_data["slug"]))
+                        if not res_p.scalar_one_or_none():
+                            db.add(models.Product(**p_data, category_id=cat.id))
                 elif cat_data["slug"] == "upakovochnye-materialy":
-                    db.add_all([
-                        models.Product(
-                            name="Пленка стрейч прозрачная",
-                            slug="plenka-streych",
-                            price=350.0,
-                            image_urls=["/products/Пленка стрейч.jpg"],
-                            category_id=cat.id,
-                            description="Пленка для упаковки и защиты деталей.",
-                            attributes={"Длина": "300м"}
-                        )
-                    ])
+                    for p_data in [
+                        {
+                            "name": "Пленка стрейч прозрачная",
+                            "slug": "plenka-streych",
+                            "price": 350.0,
+                            "image_urls": ["/products/Пленка стрейч.jpg"],
+                            "description": "Пленка для упаковки и защиты деталей.",
+                            "attributes": {"Длина": "300м"}
+                        }
+                    ]:
+                        res_p = await db.execute(select(models.Product).where(models.Product.slug == p_data["slug"]))
+                        if not res_p.scalar_one_or_none():
+                            db.add(models.Product(**p_data, category_id=cat.id))
 
         # Проверяем — уже существуют?
         res = await db.execute(select(models.Category).where(models.Category.slug == "auto-consumables"))

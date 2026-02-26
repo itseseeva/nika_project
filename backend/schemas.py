@@ -22,7 +22,7 @@ class ProductBase(BaseModel):
     image_urls: Optional[List[str]] = None
     attributes: Optional[Dict[str, Any]] = None
     is_hidden: Optional[bool] = False
-    category_id: int
+    category_id: Optional[int] = None
 
 class ProductCreate(ProductBase):
     pass
