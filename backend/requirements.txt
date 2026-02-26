@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+sqlalchemy
+aiosqlite
+python-dotenv
+httpx
+pydantic
+python-multipart
+# Зависимости для работы с базами данных и аутентификацией, которые использовались в проекте:
+passlib
+bcrypt
+python-jose
+alembic
+email-validator
+PyJWT
+aiosmtplib

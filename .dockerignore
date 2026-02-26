@@ -1,0 +1,42 @@
+# Git
+.git
+.gitignore
+
+# Docker
+docker-compose.yml
+Dockerfile
+
+# Node / Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+
+# Python
+__pycache__/
+backend/__pycache__/
+venv/
+backend/venv/
+*.pyc
+
+# Environment and Secrets
+.env
+*.env.*
+!.env.example
+
+# Databases
+*.db
+*.sqlite3
+nika.db
+backend/nika.db
+
+# Media and Logs
+*.log
+temp_photo/
+новые_фото/
+фото/
+данные nika/
+123jpg.jpg
+вово.jpg
+дляглавной.jpg
+длянорм.jpg

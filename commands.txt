@@ -1,0 +1,7 @@
+Команды для запуска проекта "НИКА":
+
+1. Запуск Backend (выполнять из папки backend при включенном виртуальном окружении venv):
+uvicorn main:app --reload --port 8000
+
+2. Запуск Frontend (выполнять из папки frontend):
+npm run dev

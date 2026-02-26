@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nika-backend
+    restart: always
+    ports:
+      - "8000:8000" # Можно убрать внешний биндинг на проде, оставив только внутренний
+    volumes:
+      - ./backend/nika.db:/app/data/nika.db # Подключаем локальную базу данных
+      - ./frontend/public/products:/frontend/public/products # Подключаем локальную папку с фото
+      - ./данные nika:/app/данные nika:ro # Подключаем базу знаний (только для чтения)
+      - ./новые_фото:/app/новые_фото:ro # Подключаем папку с новыми фото (только для чтения)
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:////app/data/nika.db # Обновленный URL для Docker
+    env_file:
+      - .env
+    networks:
+      - nika-network
+
+  nginx:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nika-nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443" # В будущем для SSL
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend/public/products:/usr/share/nginx/html/products
+    depends_on:
+      - backend
+    networks:
+      - nika-network
+
+networks:
+  nika-network:
+    driver: bridge
