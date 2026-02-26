@@ -35,14 +35,10 @@ frontend/tsconfig.tsbuildinfo
 # Databases
 # *.db (Removed to include nika.db in Git)
 
-# Logs and temporary files
+# Media and Logs
 *.log
 build.log
 temp_photo/
-новые_фото/
-фото/
-123jpg.jpg
-вово.jpg
-дляглавной.jpg
-длянорм.jpg
-данные nika/
+# новые_фото/
+# фото/
+# данные nika/

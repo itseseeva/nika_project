@@ -216,9 +216,9 @@ async def chat_with_aleksey(request: ChatRequest):
     }
     
     payload = {
-        "model": "mistralai/mistral-7b-instruct:free",
+        "model": "google/gemini-2.0-flash-exp:free",
         "messages": api_messages,
-        "temperature": 0.5 # Оптимальная температура для Mistral
+        "temperature": 0.5 
     }
 
     try:
