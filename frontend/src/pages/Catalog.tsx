@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Filter, Trash2, Eye, EyeOff } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Filter, Trash2, Eye, EyeOff, Plus, X, ArrowRight } from 'lucide-react';
 import { api } from '../utils/api';
 import { AddToCartButton } from '../components/AddToCartButton';
 import { useAuthStore } from '../store/useAuthStore';
@@ -14,6 +14,12 @@ export function Catalog() {
     const [products, setProducts] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const { user } = useAuthStore();
+    const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+    const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+    const [newCategoryName, setNewCategoryName] = useState('');
+    const [newProductName, setNewProductName] = useState('');
+    const [newProductPrice, setNewProductPrice] = useState('');
+    const [newProductDesc, setNewProductDesc] = useState('');
 
     const handleToggleHide = async (e: React.MouseEvent, productId: number) => {
         e.preventDefault();
@@ -51,6 +57,43 @@ export function Catalog() {
         } catch (error) {
             console.error(error);
             alert('Ошибка при удалении категории');
+        }
+    };
+
+    const handleCreateCategory = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const slug = newCategoryName.toLowerCase().replace(/[^a-zа-я0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        try {
+            const newCat = await api.createCategory({ name: newCategoryName, slug });
+            setCategories([...categories, newCat]);
+            setNewCategoryName('');
+            setIsCategoryModalOpen(false);
+        } catch (error) {
+            console.error(error);
+            alert('Ошибка при создании категории');
+        }
+    };
+
+    const handleCreateProduct = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const slug = newProductName.toLowerCase().replace(/[^a-zа-я0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        try {
+            const newProd = await api.createProduct({
+                name: newProductName,
+                slug,
+                description: newProductDesc,
+                price: parseFloat(newProductPrice),
+                category_id: categoryId ? parseInt(categoryId) : null,
+                image_urls: []
+            });
+            setProducts([newProd, ...products]);
+            setNewProductName('');
+            setNewProductPrice('');
+            setNewProductDesc('');
+            setIsProductModalOpen(false);
+        } catch (error) {
+            console.error(error);
+            alert('Ошибка при создании товара');
         }
     };
 
@@ -97,6 +140,15 @@ export function Catalog() {
                             <div className="flex items-center gap-2 mb-4 lg:mb-6 text-gray-900 font-semibold px-4 lg:px-0">
                                 <Filter className="w-5 h-5" />
                                 Категории
+                                {user?.is_admin && (
+                                    <button
+                                        onClick={() => setIsCategoryModalOpen(true)}
+                                        className="ml-auto p-1 hover:bg-gray-100 rounded-lg text-blue-600 transition-colors"
+                                        title="Создать категорию"
+                                    >
+                                        <Plus className="w-4 h-4" />
+                                    </button>
+                                )}
                             </div>
                             <ul className="flex lg:flex-col gap-2 lg:gap-3 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 px-4 lg:px-0 scrollbar-none">
                                 <li className="flex-shrink-0">
@@ -147,7 +199,7 @@ export function Catalog() {
                             <div className="flex justify-center py-20">
                                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
                             </div>
-                        ) : products.length === 0 ? (
+                        ) : products.length === 0 && !user?.is_admin ? (
                             <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center text-gray-500">
                                 В этой категории пока нет товаров.
                             </div>
@@ -207,11 +259,155 @@ export function Catalog() {
                                         </div>
                                     </motion.div>
                                 ))}
+                                {user?.is_admin && (
+                                    <motion.button
+                                        onClick={() => setIsProductModalOpen(true)}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center p-6 text-gray-400 hover:border-blue-400 hover:text-blue-500 transition-all aspect-[4/5]"
+                                    >
+                                        <div className="w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center mb-3">
+                                            <Plus className="w-6 h-6" />
+                                        </div>
+                                        <span className="font-semibold text-sm">Добавить товар</span>
+                                        {categoryId && (
+                                            <span className="text-[10px] mt-1 opacity-60">в текущую категорию</span>
+                                        )}
+                                    </motion.button>
+                                )}
                             </div>
                         )}
                     </div>
                 </div>
             </div>
-        </div >
+
+            {/* Modals */}
+            <AnimatePresence>
+                {isCategoryModalOpen && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsCategoryModalOpen(false)}
+                            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="relative bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl"
+                        >
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-xl font-bold text-gray-900">Новая категория</h3>
+                                <button onClick={() => setIsCategoryModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl">
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+                            <form onSubmit={handleCreateCategory} className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Название</label>
+                                    <input
+                                        autoFocus
+                                        required
+                                        type="text"
+                                        value={newCategoryName}
+                                        onChange={e => setNewCategoryName(e.target.value)}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                        placeholder="Напр., Средства защиты"
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+                                >
+                                    Создать <ArrowRight className="w-4 h-4" />
+                                </button>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+
+                {isProductModalOpen && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsProductModalOpen(false)}
+                            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        />
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="relative bg-white rounded-3xl p-8 w-full max-w-lg shadow-2xl"
+                        >
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-xl font-bold text-gray-900">Добавить товар</h3>
+                                <button onClick={() => setIsProductModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-xl">
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+                            <form onSubmit={handleCreateProduct} className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Название</label>
+                                    <input
+                                        autoFocus
+                                        required
+                                        type="text"
+                                        value={newProductName}
+                                        onChange={e => setNewProductName(e.target.value)}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                        placeholder="Название товара"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Цена (₽)</label>
+                                        <input
+                                            required
+                                            type="number"
+                                            value={newProductPrice}
+                                            onChange={e => setNewProductPrice(e.target.value)}
+                                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                            placeholder="1500"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Категория</label>
+                                        <div className="px-4 py-3 bg-blue-50 text-blue-700 rounded-xl font-medium border border-blue-100">
+                                            {categoryId ? categories.find(c => c.id === parseInt(categoryId))?.name || 'Выбрана' : 'Все категории'}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Описание</label>
+                                    <textarea
+                                        rows={3}
+                                        value={newProductDesc}
+                                        onChange={e => setNewProductDesc(e.target.value)}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                                        placeholder="Описание товара..."
+                                    />
+                                </div>
+                                <div className="p-4 bg-amber-50 rounded-xl flex items-start gap-3 border border-amber-100">
+                                    <span className="text-amber-500 text-lg">💡</span>
+                                    <p className="text-xs text-amber-700 leading-relaxed">
+                                        Фото можно будет загрузить на странице товара после его создания.
+                                    </p>
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/25 hover:bg-blue-700 transition-all flex items-center justify-center gap-2"
+                                >
+                                    Создать товар <Plus className="w-4 h-4" />
+                                </button>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+        </div>
     );
 }

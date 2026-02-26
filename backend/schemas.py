@@ -6,6 +6,7 @@ class CategoryBase(BaseModel):
     name: str
     slug: str
     is_hidden: Optional[bool] = False
+    image_url: Optional[str] = None
 
 class CategoryCreate(CategoryBase):
     pass

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, ShieldCheck, Truck, Package, Eye, EyeOff } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Truck, Package, Eye, EyeOff, Upload } from 'lucide-react';
 import { useEffect, useState, useRef, useLayoutEffect } from 'react';
 import { api } from '../utils/api';
 import { AddToCartButton } from '../components/AddToCartButton';
@@ -44,6 +44,16 @@ export function Home() {
             setCategories(categories.map(c => c.id === catId ? { ...c, is_hidden: result.is_hidden } : c));
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const handleCategoryImageUpload = async (catId: number, file: File) => {
+        try {
+            const result = await api.uploadCategoryImage(catId, file);
+            setCategories(categories.map(c => c.id === catId ? { ...c, image_url: result.url } : c));
+        } catch (error) {
+            console.error(error);
+            alert('Ошибка при загрузке фото');
         }
     };
 
@@ -405,13 +415,31 @@ export function Home() {
                                                 className="group block relative rounded-3xl overflow-hidden bg-gray-900 aspect-[3/4] shadow-lg hover:shadow-2xl transition-all duration-500 transform-gpu"
                                             >
                                                 {user?.is_admin && (
-                                                    <button
-                                                        onClick={(e) => handleToggleCategoryHide(e, cat.id)}
-                                                        className="absolute top-3 right-3 z-30 p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-colors"
-                                                        title={cat.is_hidden ? "Показать" : "Скрыть"}
-                                                    >
-                                                        {cat.is_hidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                                                    </button>
+                                                    <div className="absolute top-3 right-3 z-30 flex gap-2" onClick={(e) => e.stopPropagation()}>
+                                                        <label
+                                                            className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-colors cursor-pointer"
+                                                            title="Загрузить фото"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                        >
+                                                            <Upload className="w-4 h-4" />
+                                                            <input
+                                                                type="file"
+                                                                className="hidden"
+                                                                accept="image/*"
+                                                                onChange={(e) => {
+                                                                    const file = e.target.files?.[0];
+                                                                    if (file) handleCategoryImageUpload(cat.id, file);
+                                                                }}
+                                                            />
+                                                        </label>
+                                                        <button
+                                                            onClick={(e) => handleToggleCategoryHide(e, cat.id)}
+                                                            className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-colors"
+                                                            title={cat.is_hidden ? "Показать" : "Скрыть"}
+                                                        >
+                                                            {cat.is_hidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                                        </button>
+                                                    </div>
                                                 )}
                                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent z-10 opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
                                                 <motion.img
@@ -419,7 +447,7 @@ export function Home() {
                                                     whileInView={{ scale: 1, filter: "blur(0px)" }}
                                                     transition={{ duration: 1.5, ease: "easeOut", delay: i * 0.1 }}
                                                     viewport={{ once: true, margin: "-50px" }}
-                                                    src={bgImage}
+                                                    src={cat.image_url ? encodeURI(cat.image_url) : bgImage}
                                                     alt={cat.name}
                                                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
                                                 />

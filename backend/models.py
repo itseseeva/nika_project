@@ -10,6 +10,7 @@ class Category(Base):
     name = Column(String, index=True, nullable=False)
     slug = Column(String, unique=True, index=True, nullable=False)
     is_hidden = Column(Boolean, default=False)
+    image_url = Column(String, nullable=True)
 
     products = relationship("Product", back_populates="category")
 

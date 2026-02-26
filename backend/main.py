@@ -385,7 +385,22 @@ async def _check_and_add_category_hidden_column():
         if "is_hidden" not in column_names:
             print("[DB-AUTO] Adding column 'is_hidden' to 'categories' table...")
             await conn.execute(text("ALTER TABLE categories ADD COLUMN is_hidden BOOLEAN DEFAULT 0"))
-            await conn.commit()
+        
+        if "image_url" not in column_names:
+            print("[DB-AUTO] Adding column 'image_url' to 'categories' table...")
+            await conn.execute(text("ALTER TABLE categories ADD COLUMN image_url TEXT"))
+            
+        def get_product_columns(connection):
+            inspector = inspect(connection)
+            cols = inspector.get_columns("products")
+            return [c['name'] for c in cols]
+            
+        product_column_names = await conn.run_sync(get_product_columns)
+        if "is_hidden" not in product_column_names:
+            print("[DB-AUTO] Adding column 'is_hidden' to 'products' table...")
+            await conn.execute(text("ALTER TABLE products ADD COLUMN is_hidden BOOLEAN DEFAULT 0"))
+
+        await conn.commit()
 
 @app.on_event("startup")
 async def startup():

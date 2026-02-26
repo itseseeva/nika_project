@@ -1,14 +1,18 @@
 const API_BASE = '/api';
 
-const getHeaders = () => {
+const getToken = () => {
     const storage = localStorage.getItem('auth-storage');
-    let token = null;
     if (storage) {
         try {
             const parsed = JSON.parse(storage);
-            token = parsed.state?.token;
+            return parsed.state?.token;
         } catch (e) { }
     }
+    return null;
+};
+
+const getHeaders = () => {
+    const token = getToken();
     const headers: Record<string, string> = {
         'Content-Type': 'application/json'
     };
@@ -103,6 +107,40 @@ export const api = {
             headers: getHeaders()
         });
         if (!res.ok) throw new Error('Failed to toggle category hide');
+        return res.json();
+    },
+    createCategory: async (category: { name: string, slug: string }) => {
+        const res = await fetch(`${API_BASE}/categories`, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify(category)
+        });
+        if (!res.ok) throw new Error('Failed to create category');
+        return res.json();
+    },
+    createProduct: async (product: any) => {
+        const res = await fetch(`${API_BASE}/products`, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify(product)
+        });
+        if (!res.ok) throw new Error('Failed to create product');
+        return res.json();
+    },
+    uploadCategoryImage: async (categoryId: number, file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        const token = getToken();
+        const headers: Record<string, string> = {};
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+        const res = await fetch(`${API_BASE}/categories/${categoryId}/image`, {
+            method: 'POST',
+            headers,
+            body: formData
+        });
+        if (!res.ok) throw new Error('Failed to upload category image');
         return res.json();
     },
 };

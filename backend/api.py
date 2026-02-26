@@ -33,6 +33,12 @@ async def read_categories(db: AsyncSession = Depends(get_db), current_user: mode
         result = await db.execute(select(models.Category).where(models.Category.is_hidden == False))
     return result.scalars().all()
 
+@router.post("/categories", response_model=schemas.Category)
+async def create_category(category: schemas.CategoryCreate, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    return await crud.create_category(db, category)
+
 @router.post("/categories/{category_id}/toggle_hide")
 async def toggle_category_hide(category_id: int, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
     if not current_user.is_admin:
@@ -49,6 +55,35 @@ async def toggle_category_hide(category_id: int, db: AsyncSession = Depends(get_
     await db.commit()
     await db.refresh(category)
     return {"message": "Visibility toggled", "is_hidden": category.is_hidden}
+
+@router.post("/categories/{category_id}/image")
+async def upload_category_image(
+    category_id: int,
+    file: UploadFile = File(...),
+    db: AsyncSession = Depends(get_db),
+    current_user: models.User = Depends(auth.get_current_user),
+):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+
+    from sqlalchemy.future import select
+    result = await db.execute(select(models.Category).filter(models.Category.id == category_id))
+    category = result.scalar_one_or_none()
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+
+    # Сохраняем файл
+    ext = os.path.splitext(file.filename)[1]
+    filename = f"category_{category_id}{ext}"
+    filepath = os.path.join(PRODUCTS_PHOTO_DIR, filename)
+    
+    with open(filepath, "wb") as buffer:
+        buffer.write(await file.read())
+
+    public_url = f"/products/{filename}"
+    category.image_url = public_url
+    await db.commit()
+    return {"message": "Category image uploaded", "url": public_url}
 
 @router.delete("/categories/{category_id}")
 async def delete_category(category_id: int, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
@@ -71,6 +106,12 @@ async def read_products(category_id: int = None, db: AsyncSession = Depends(get_
     is_admin = current_user.is_admin if current_user else False
     products = await crud.get_products(db, category_id=category_id, is_admin=is_admin)
     return products
+
+@router.post("/products", response_model=schemas.Product)
+async def create_product(product: schemas.ProductCreate, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user)):
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Not enough permissions")
+    return await crud.create_product(db, product)
 
 @router.get("/products/{slug}", response_model=schemas.Product)
 async def read_product(slug: str, db: AsyncSession = Depends(get_db), current_user: models.User = Depends(auth.get_current_user_optional)):
