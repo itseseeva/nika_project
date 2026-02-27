@@ -42,3 +42,5 @@ temp_photo/
 # новые_фото/
 # фото/
 # данные nika/
+backend/data/nika.db
+frontend/public/products/*
