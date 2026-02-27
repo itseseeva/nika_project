@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag } from 'lucide-react';
 import { useCartStore } from '../store/useCartStore';
@@ -8,11 +9,21 @@ import { User as UserIcon, LogOut } from 'lucide-react';
 
 
 
+
 export function Navbar() {
     const { totalItems, setIsOpen } = useCartStore();
     const { user, logout } = useAuthStore();
     const location = useLocation();
+    const [adminCount, setAdminCount] = useState<number>(() => {
+        const saved = localStorage.getItem('adminAddedProductsCount');
+        return saved ? parseInt(saved, 10) : 0;
+    });
 
+    const handleAdminCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = parseInt(e.target.value) || 0;
+        setAdminCount(val);
+        localStorage.setItem('adminAddedProductsCount', val.toString());
+    };
 
     const navLinks = [
         { name: 'Главная', path: '/' },
@@ -92,6 +103,21 @@ export function Navbar() {
                         <div className="flex items-center gap-4 ml-4">
                             {user ? (
                                 <div className="flex items-center gap-3">
+                                    {user.is_admin && (
+                                        <div className="hidden lg:flex items-center gap-2 bg-purple-50 px-3 py-1.5 rounded-lg border border-purple-100">
+                                            <span className="text-xs text-purple-700 font-medium">Товаров:</span>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                value={adminCount}
+                                                onChange={handleAdminCountChange}
+                                                className="w-16 h-6 px-1 text-sm font-bold text-center text-purple-900 bg-white border border-purple-200 rounded outline-none focus:border-purple-400"
+                                            />
+                                            <span className="text-sm font-bold text-purple-900 ml-1">
+                                                = {adminCount * 50} ₽
+                                            </span>
+                                        </div>
+                                    )}
                                     <span className="hidden lg:inline text-sm font-medium text-gray-700">{user.email}</span>
                                     <button
                                         onClick={logout}

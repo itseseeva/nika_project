@@ -354,9 +354,9 @@ export function LoginPage() {
                             transition={{ duration: 0.8, ease: 'easeOut' }}
                             className="text-4xl xl:text-5xl font-extrabold text-white leading-tight mb-6"
                         >
-                            Партнёрский <br />
+                            Интернет-магазин <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-cyan-300">
-                                кабинет НИКА
+                                НИКА
                             </span>
                         </motion.h1>
                         <motion.p
@@ -407,7 +407,7 @@ export function LoginPage() {
                     <img src="/logo.jpg" alt="НИКА" className="w-10 h-10 rounded-xl object-contain border border-gray-200 shadow" />
                     <div>
                         <div className="font-extrabold text-gray-900 text-base">ООО «НИКА»</div>
-                        <div className="text-gray-400 text-xs">Партнёрский кабинет</div>
+                        <div className="text-gray-400 text-xs">Интернет-магазин</div>
                     </div>
                 </div>
 

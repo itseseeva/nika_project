@@ -65,7 +65,7 @@ export function TermsPage() {
                     <Section icon={CreditCard} title="2. Порядок оплаты">
                         <ul className="space-y-2">
                             <Li>Покупатель оплачивает товар в течение <strong>5 календарных дней</strong> после приёмки.</Li>
-                            <Li>Все цены указаны в рублях и <strong>включают НДС 20%</strong>. Цена фиксируется и изменению не подлежит.</Li>
+                            <Li>Все цены указаны в рублях и <strong>включают НДС 22%</strong>. Цена фиксируется и изменению не подлежит.</Li>
                             <Li>Расчёты — только <strong>безналичный перевод</strong> на расчётный счёт Поставщика.</Li>
                             <Li>Положения ст. 317.1 и ст. 823 ГК РФ к договору не применяются.</Li>
                         </ul>
@@ -137,22 +137,7 @@ export function TermsPage() {
                                 <dt className="opacity-70 text-xs uppercase tracking-wider mb-1">ОГРН</dt>
                                 <dd className="font-semibold font-mono">1237800128390</dd>
                             </div>
-                            <div>
-                                <dt className="opacity-70 text-xs uppercase tracking-wider mb-1">Р/С</dt>
-                                <dd className="font-semibold font-mono">40702810669630004553</dd>
-                            </div>
-                            <div>
-                                <dt className="opacity-70 text-xs uppercase tracking-wider mb-1">БИК</dt>
-                                <dd className="font-semibold font-mono">046577795</dd>
-                            </div>
-                            <div>
-                                <dt className="opacity-70 text-xs uppercase tracking-wider mb-1">К/С</dt>
-                                <dd className="font-semibold font-mono">30101810900000000795</dd>
-                            </div>
-                            <div>
-                                <dt className="opacity-70 text-xs uppercase tracking-wider mb-1">Банк</dt>
-                                <dd className="font-semibold">ПАО КБ «УБРИР», г. Екатеринбург</dd>
-                            </div>
+
                             <div className="sm:col-span-2">
                                 <dt className="opacity-70 text-xs uppercase tracking-wider mb-1">Юридический адрес</dt>
                                 <dd className="font-semibold">198259, г. Санкт-Петербург, ул. Тамбасова, д. 21 к. 2 литера А, кв. 300</dd>

@@ -39,7 +39,7 @@ const STATS = [
     { value: '500+', label: 'клиентов' },
     { value: '3 000+', label: 'позиций в каталоге' },
     { value: '1 день', label: 'срок отгрузки' },
-    { value: '20%', label: 'НДС включён' },
+    { value: '22%', label: 'НДС включён' },
 ];
 
 export function AuthFullPage() {

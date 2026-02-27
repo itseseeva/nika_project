@@ -110,18 +110,7 @@ export function About() {
                                     <dt className="opacity-70 uppercase tracking-wider text-xs mb-1">Дата регистрации</dt>
                                     <dd className="font-semibold">09.11.2023</dd>
                                 </div>
-                                <div>
-                                    <dt className="opacity-70 uppercase tracking-wider text-xs mb-1">Банк</dt>
-                                    <dd className="font-semibold">ПАО КБ «УБРИР», г. Екатеринбург</dd>
-                                </div>
-                                <div>
-                                    <dt className="opacity-70 uppercase tracking-wider text-xs mb-1">Расчётный счёт</dt>
-                                    <dd className="font-semibold font-mono">40702810669630004553</dd>
-                                </div>
-                                <div>
-                                    <dt className="opacity-70 uppercase tracking-wider text-xs mb-1">БИК / К/С</dt>
-                                    <dd className="font-semibold font-mono">046577795 / 30101810900000000795</dd>
-                                </div>
+
                             </dl>
                         </div>
 
@@ -143,7 +132,7 @@ export function About() {
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <div className="w-2 h-2 bg-blue-600 rounded-full mt-1.5 flex-shrink-0"></div>
-                                    <span>Все цены указаны <strong>с НДС 20%</strong></span>
+                                    <span>Все цены указаны <strong>с НДС 22%</strong></span>
                                 </li>
                                 <li className="flex items-start gap-3">
                                     <div className="w-2 h-2 bg-blue-600 rounded-full mt-1.5 flex-shrink-0"></div>
