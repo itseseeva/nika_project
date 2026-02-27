@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, Check, Package, Tag, ArrowLeft, Eye, EyeOff, Camera, Loader2, Plus, X } from 'lucide-react';
+import { ChevronRight, Check, Package, Tag, ArrowLeft, Eye, EyeOff, Camera, Loader2, Plus, X, Trash2 } from 'lucide-react';
 import { api } from '../utils/api';
 import { AddToCartButton } from '../components/AddToCartButton';
 import { useAuthStore } from '../store/useAuthStore';
@@ -13,6 +13,7 @@ export function ProductPage() {
     const [activeIdx, setActiveIdx] = useState(0);
     const [uploadingIdx, setUploadingIdx] = useState<number | null>(null);
     const { user, token } = useAuthStore();
+    const navigate = useNavigate();
 
     const handleToggleHide = async () => {
         if (!product) return;
@@ -21,6 +22,24 @@ export function ProductPage() {
             setProduct({ ...product, is_hidden: result.is_hidden });
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const handleDeleteProduct = async () => {
+        if (!product || !token) return;
+        if (!window.confirm(`Вы уверены, что хотите полностью удалить товар "${product.name}"? Это действие необратимо!`)) return;
+
+        try {
+            const res = await fetch(`/api/products/${product.id}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!res.ok) throw new Error('Failed to delete product');
+            alert('Товар успешно удален');
+            navigate('/catalog');
+        } catch (error) {
+            console.error(error);
+            alert('Ошибка при удалении товара');
         }
     };
 
@@ -272,15 +291,26 @@ export function ProductPage() {
                                 <AddToCartButton product={product} compact={false} />
                             </div>
                             {user?.is_admin && (
-                                <button
-                                    onClick={handleToggleHide}
-                                    className={`flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-white shadow-md transition-all text-sm ${product.is_hidden
-                                        ? 'bg-gray-500 hover:bg-gray-600'
-                                        : 'bg-red-500 hover:bg-red-600'
-                                        }`}
-                                >
-                                    {product.is_hidden ? <><Eye className="w-4 h-4" /> Показать</> : <><EyeOff className="w-4 h-4" /> Скрыть</>}
-                                </button>
+                                <>
+                                    <button
+                                        onClick={handleToggleHide}
+                                        className={`flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-white shadow-md transition-all text-sm ${product.is_hidden
+                                            ? 'bg-gray-500 hover:bg-gray-600'
+                                            : 'bg-orange-500 hover:bg-orange-600'
+                                            }`}
+                                    >
+                                        {product.is_hidden ? <><Eye className="w-4 h-4" /> Показать</> : <><EyeOff className="w-4 h-4" /> Скрыть</>}
+                                    </button>
+
+                                    <button
+                                        onClick={handleDeleteProduct}
+                                        className="flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-white bg-red-600 hover:bg-red-700 shadow-md transition-all text-sm"
+                                        title="Полностью удалить товар из базы"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                        Удалить
+                                    </button>
+                                </>
                             )}
                         </div>
 

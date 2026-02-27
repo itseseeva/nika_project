@@ -73,8 +73,10 @@ async def upload_category_image(
         raise HTTPException(status_code=404, detail="Category not found")
 
     # Сохраняем файл
+    import time
     ext = os.path.splitext(file.filename)[1]
-    filename = f"category_{category_id}{ext}"
+    timestamp = int(time.time())
+    filename = f"category_{category_id}_{timestamp}{ext}"
     filepath = os.path.join(PRODUCTS_PHOTO_DIR, filename)
     
     with open(filepath, "wb") as buffer:
@@ -198,8 +200,10 @@ async def upload_product_image(
         raise HTTPException(status_code=404, detail="Product not found")
 
     # Сохраняем файл
+    import time
     ext = os.path.splitext(file.filename or "photo.jpg")[1] or ".jpg"
-    filename = f"product_{product_id}_img{index}{ext}"
+    timestamp = int(time.time())
+    filename = f"product_{product_id}_img{index}_{timestamp}{ext}"
     filepath = os.path.join(PRODUCTS_PHOTO_DIR, filename)
     with open(filepath, "wb") as f:
         shutil.copyfileobj(file.file, f)
