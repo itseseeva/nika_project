@@ -75,7 +75,7 @@ function App() {
                     <div className="md:col-span-2">
                         <Link to="/" className="flex items-center gap-2 mb-6 inline-block">
                             <img
-                                src="/logo.jpg"
+                                src="/photo_2026-02-28_20-15-26.jpg"
                                 alt="НИКА Логотип"
                                 className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-300 transform origin-left"
                             />

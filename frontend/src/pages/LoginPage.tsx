@@ -340,7 +340,7 @@ export function LoginPage() {
                 <div className="relative z-10 flex flex-col h-full p-12">
                     {/* Logo + Brand */}
                     <div className="flex items-center gap-4 mb-auto">
-                        <img src="/logo.jpg" alt="НИКА" className="w-14 h-14 rounded-2xl object-contain border-2 border-white/20 shadow-xl" />
+                        <img src="/photo_2026-02-28_20-15-26.jpg" alt="НИКА" className="w-14 h-14 rounded-2xl object-contain border-2 border-white/20 shadow-xl" />
                         <div>
                             <div className="text-white font-extrabold text-xl tracking-tight">ООО «НИКА»</div>
                             <div className="text-blue-300 text-xs">Профессиональные B2B поставки</div>
@@ -404,7 +404,7 @@ export function LoginPage() {
             <div className="flex-1 flex flex-col bg-white overflow-y-auto">
                 {/* Mobile header */}
                 <div className="lg:hidden flex items-center gap-3 px-6 pt-8 pb-4 border-b border-gray-100">
-                    <img src="/logo.jpg" alt="НИКА" className="w-10 h-10 rounded-xl object-contain border border-gray-200 shadow" />
+                    <img src="/photo_2026-02-28_20-15-26.jpg" alt="НИКА" className="w-10 h-10 rounded-xl object-contain border border-gray-200 shadow" />
                     <div>
                         <div className="font-extrabold text-gray-900 text-base">ООО «НИКА»</div>
                         <div className="text-gray-400 text-xs">Интернет-магазин</div>

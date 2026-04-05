@@ -66,7 +66,7 @@ export function Navbar() {
                         <div className="pl-32 sm:pl-14 lg:pl-0 lg:-ml-6 flex-shrink-0">
                             <Link to="/" className="flex items-center group h-14 sm:h-20">
                                 <img
-                                    src="/logo.jpg"
+                                    src="/photo_2026-02-28_20-15-26.jpg"
                                     alt="НИКА Логотип"
                                     className="h-10 sm:h-16 md:h-20 w-auto object-contain object-left group-hover:scale-[1.02] transition-transform duration-300 origin-left"
                                 />

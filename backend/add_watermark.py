@@ -2,8 +2,11 @@ import os
 from PIL import Image
 
 def add_watermark(image_name):
-    base_dir = r"E:\Users\username\Desktop\nika\frontend\public\products"
-    logo_path = r"E:\Users\username\Desktop\nika\frontend\public\logo.jpg"
+    # Use relative paths from script directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    root_dir = os.path.dirname(script_dir)
+    base_dir = os.path.join(root_dir, "frontend", "public", "products")
+    logo_path = os.path.join(root_dir, "frontend", "public", "photo_2026-02-28_20-15-26.jpg")
     
     image_path = os.path.join(base_dir, image_name)
     output_path = os.path.join(base_dir, image_name)

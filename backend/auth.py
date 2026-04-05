@@ -106,7 +106,7 @@ async def send_verification_code(request: schemas.AuthCodeRequest, db: AsyncSess
     
     # Send HTML email
     frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5555").rstrip("/")
-    logo_url = f"{frontend_url}/logo.jpg"
+    logo_url = f"{frontend_url}/photo_2026-02-28_20-15-26.jpg"
 
     subject = "Ваш код авторизации — ООО «НИКА»"
     plain_body = f"Ваш код для входа: {code}\nКод действителен 10 минут.\n\nЕсли вы не запрашивали код — проигнорируйте это письмо."
