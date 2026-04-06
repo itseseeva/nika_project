@@ -3,25 +3,25 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: nika-backend
+    container_name: promsell-backend
     restart: always
     ports:
       - "8000:8000"
     volumes:
       - ./backend/data:/app/data
       - ./frontend/public/products:/frontend/public/products
-      - ./данные nika:/app/данные nika:ro
+      - ./данные promsell:/app/данные promsell:ro
       - ./новые_фото:/app/новые_фото:ro
     env_file:
       - .env
     networks:
-      - nika-network
+      - promsell-network
 
   nginx:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: nika-nginx
+    container_name: promsell-nginx
     restart: always
     ports:
       - "80:80"
@@ -35,9 +35,9 @@ services:
     depends_on:
       - backend
     networks:
-      - nika-network
+      - promsell-network
 
 networks:
-  nika-network:
+  promsell-network:
     driver: bridge
 

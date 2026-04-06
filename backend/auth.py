@@ -108,7 +108,7 @@ async def send_verification_code(request: schemas.AuthCodeRequest, db: AsyncSess
     frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5555").rstrip("/")
     logo_url = f"{frontend_url}/photo_2026-02-28_20-15-26.jpg"
 
-    subject = "Ваш код авторизации — ООО «НИКА»"
+    subject = "Ваш код авторизации — ООО «Промселл»"
     plain_body = f"Ваш код для входа: {code}\nКод действителен 10 минут.\n\nЕсли вы не запрашивали код — проигнорируйте это письмо."
     html_body = f"""
 <!DOCTYPE html>
@@ -127,10 +127,10 @@ async def send_verification_code(request: schemas.AuthCodeRequest, db: AsyncSess
         <tr>
           <td style="background:linear-gradient(135deg,#0c1445 0%,#1e3a8a 60%,#1e40af 100%);border-radius:16px 16px 0 0;padding:36px 40px;text-align:center;">
             <div style="margin-bottom: 20px;">
-              <img src="{logo_url}" alt="НИКА" style="width: 120px; height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" />
+              <img src="{logo_url}" alt="Промселл" style="width: 120px; height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));" />
             </div>
             <div style="display:inline-block;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:12px;padding:10px 16px;margin-bottom:16px;">
-              <span style="color:#ffffff;font-size:18px;font-weight:800;letter-spacing:0.5px;">ООО «НИКА»</span>
+              <span style="color:#ffffff;font-size:18px;font-weight:800;letter-spacing:0.5px;">ООО «Промселл»</span>
             </div>
             <p style="color:#bfdbfe;margin:0;font-size:14px;">Профессиональные B2B поставки</p>
           </td>
@@ -140,7 +140,7 @@ async def send_verification_code(request: schemas.AuthCodeRequest, db: AsyncSess
         <tr>
           <td style="background:#ffffff;padding:40px 40px 36px;">
             <h1 style="margin:0 0 8px;font-size:24px;font-weight:700;color:#0f172a;">Ваш код для входа</h1>
-            <p style="margin:0 0 32px;font-size:15px;color:#64748b;line-height:1.6;">Используйте следующий код для авторизации в партнёрском кабинете НИКА. Код действителен <strong>10 минут</strong>.</p>
+            <p style="margin:0 0 32px;font-size:15px;color:#64748b;line-height:1.6;">Используйте следующий код для авторизации в партнёрском кабинете Промселл. Код действителен <strong>10 минут</strong>.</p>
 
             <!-- Большой код -->
             <div style="background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:28px 20px;text-align:center;margin-bottom:32px;">
@@ -160,7 +160,7 @@ async def send_verification_code(request: schemas.AuthCodeRequest, db: AsyncSess
         <!-- Футер -->
         <tr>
           <td style="background:#f8fafc;border-radius:0 0 16px 16px;border-top:1px solid #e2e8f0;padding:24px 40px;text-align:center;">
-            <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#475569;">ООО «НИКА»</p>
+            <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#475569;">ООО «Промселл»</p>
             <p style="margin:0;font-size:12px;color:#94a3b8;">г. Санкт-Петербург, ул. Савушкина, д. 89 лит А&nbsp;&nbsp;·&nbsp;&nbsp;8 (965) 008-79-46</p>
           </td>
         </tr>

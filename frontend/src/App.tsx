@@ -12,6 +12,7 @@ import { AuthModal } from './components/AuthModal';
 import { AuthFullPage } from './components/AuthFullPage';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
+const currentLang: string = 'ru';
 
 const API_URL = (import.meta as any).env.VITE_API_URL || '/api';
 
@@ -76,12 +77,14 @@ function App() {
                         <Link to="/" className="flex items-center gap-2 mb-6 inline-block">
                             <img
                                 src="/photo_2026-02-28_20-15-26.jpg"
-                                alt="НИКА Логотип"
+                                alt={currentLang === 'en' ? 'Promsell Logo' : 'Промселл Логотип'}
                                 className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-300 transform origin-left"
                             />
                         </Link>
                         <p className="text-sm text-gray-600 max-w-sm leading-relaxed">
-                            Надежный партнер в сфере B2B-поставок. Мы обеспечиваем предприятия качественной спецодеждой, проверенными автозапчастями и прочными упаковочными материалами.
+                            {currentLang === 'en' 
+                                ? 'Reliable partner in B2B supplies. We provide enterprises with quality workwear, proven auto parts and durable packaging materials.' 
+                                : 'Надежный партнер в сфере B2B-поставок. Мы обеспечиваем предприятия качественной спецодеждой, проверенными автозапчастями и прочными упаковочными материалами.'}
                         </p>
                     </div>
                     <div>
@@ -111,7 +114,7 @@ function App() {
                     </div>
                 </div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pt-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
-                    <p>&copy; {new Date().getFullYear()} Компания "НИКА". Все права защищены.</p>
+                    <p>&copy; {new Date().getFullYear()} {currentLang === 'en' ? 'Promsell Company' : 'Компания "Промселл"'}. {currentLang === 'en' ? 'All rights reserved.' : 'Все права защищены.'}</p>
                     <div className="mt-4 md:mt-0 flex space-x-6">
                         <a href="#" className="hover:text-gray-900 transition-colors">Политика конфиденциальности</a>
                         <a href="/terms" className="hover:text-gray-900 transition-colors">Условия работы</a>

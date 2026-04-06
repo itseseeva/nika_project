@@ -13,6 +13,7 @@ import { User as UserIcon, LogOut } from 'lucide-react';
 export function Navbar() {
     const { totalItems, setIsOpen } = useCartStore();
     const { user, logout } = useAuthStore();
+    const currentLang: string = 'ru';
     const location = useLocation();
     const [adminCount, setAdminCount] = useState<number>(() => {
         const saved = localStorage.getItem('adminAddedProductsCount');
@@ -67,7 +68,7 @@ export function Navbar() {
                             <Link to="/" className="flex items-center group h-14 sm:h-20">
                                 <img
                                     src="/photo_2026-02-28_20-15-26.jpg"
-                                    alt="НИКА Логотип"
+                                    alt={currentLang === 'en' ? 'Promsell Logo' : 'Промселл Логотип'}
                                     className="h-10 sm:h-16 md:h-20 w-auto object-contain object-left group-hover:scale-[1.02] transition-transform duration-300 origin-left"
                                 />
                             </Link>

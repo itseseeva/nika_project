@@ -1,6 +1,6 @@
 import zipfile, os, re
 
-base = r'E:/Users/username/Desktop/nika/данные nika'
+base = r'E:/Users/username/Desktop/promsell/данные promsell'
 
 docs = [
     ('spec', 'Спецификация 16.02.2026.docx'),
@@ -10,7 +10,7 @@ docs = [
     ('order4', 'заявка 4.docx'),
 ]
 
-os.makedirs('E:/Users/username/Desktop/nika/данные nika/extracted', exist_ok=True)
+os.makedirs('E:/Users/username/Desktop/promsell/данные promsell/extracted', exist_ok=True)
 
 for key, name in docs:
     path = os.path.join(base, name)
@@ -22,7 +22,7 @@ for key, name in docs:
                 text = re.sub(r'<[^>]+>', ' ', content)
                 text = re.sub(r'\s+', ' ', text).strip()
                 # Save to file
-                out_path = f'E:/Users/username/Desktop/nika/данные nika/extracted/{key}.txt'
+                out_path = f'E:/Users/username/Desktop/promsell/данные promsell/extracted/{key}.txt'
                 with open(out_path, 'w', encoding='utf-8') as out:
                     out.write(text)
                 print(f"Saved to {out_path} ({len(text)} chars)")

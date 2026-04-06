@@ -78,7 +78,7 @@ export const useCartStore = create<CartStore>()(
             }, 0),
         }),
         {
-            name: 'nika-cart-storage',
+            name: 'promsell-cart-storage',
         }
     )
 );

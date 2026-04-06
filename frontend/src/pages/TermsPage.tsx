@@ -29,6 +29,7 @@ const Li = ({ children }: { children: React.ReactNode }) => (
 );
 
 export function TermsPage() {
+    const currentLang: string = 'ru';
     return (
         <div className="bg-white min-h-screen pt-24 pb-16">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,7 +49,7 @@ export function TermsPage() {
                         className="text-lg text-gray-500"
                     >
                         Все условия основаны на Договоре поставки № 1202-26 (ред. от 12 февраля 2026 г.),
-                        заключённом ООО «НИКА» с клиентами.
+                        заключённом {currentLang === 'en' ? 'Promsell LLC' : 'ООО «Промселл»'} с клиентами.
                     </motion.p>
                 </div>
 
@@ -56,7 +57,7 @@ export function TermsPage() {
 
                     <Section icon={FileText} title="1. Предмет договора">
                         <ul className="space-y-2">
-                            <Li>Поставщик (ООО «НИКА») поставляет, а Покупатель принимает и оплачивает Товар (спецодежду, СИЗ, упаковочные материалы).</Li>
+                            <Li>{currentLang === 'en' ? 'Supplier (Promsell LLC)' : 'Поставщик (ООО «Промселл»)'} поставляет, а Покупатель принимает и оплачивает Товар (спецодежду, СИЗ, упаковочные материалы).</Li>
                             <Li>Ассортимент, количество, цена и сроки устанавливаются в подписанной Спецификации к договору.</Li>
                             <Li>Поставляемый товар новый, ранее не эксплуатировавшийся, не заложенный и не арестованный.</Li>
                         </ul>
@@ -127,7 +128,7 @@ export function TermsPage() {
 
                     {/* Реквизиты поставщика */}
                     <div className="bg-blue-600 rounded-3xl p-8 text-white">
-                        <h2 className="text-xl font-bold mb-5">Реквизиты ООО «НИКА» (Поставщик)</h2>
+                        <h2 className="text-xl font-bold mb-5">Реквизиты {currentLang === 'en' ? 'Promsell LLC (Supplier)' : 'ООО «Промселл» (Поставщик)'}</h2>
                         <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
                             <div>
                                 <dt className="opacity-70 text-xs uppercase tracking-wider mb-1">ИНН / КПП</dt>

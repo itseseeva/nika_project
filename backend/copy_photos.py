@@ -2,7 +2,7 @@ import shutil
 import os
 
 src_dir = r"E:\Users\username\.gemini\antigravity\brain\953da8fb-f51a-4251-b135-80eb119e0f61"
-dst_dir = r"E:\Users\username\Desktop\nika\frontend\public\temp_photo"
+dst_dir = r"E:\Users\username\Desktop\promsell\frontend\public\temp_photo"
 
 os.makedirs(dst_dir, exist_ok=True)
 

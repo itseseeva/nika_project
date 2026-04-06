@@ -9,7 +9,7 @@ import shutil
 # Load environment variables from the root .env file
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
 
-app = FastAPI(title="NIKA E-commerce MVP")
+app = FastAPI(title="Promsell E-commerce MVP")
 
 # Configure CORS for frontend access
 origins = [
@@ -423,4 +423,4 @@ async def startup():
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to NIKA Backend API"}
+    return {"message": "Welcome to Promsell Backend API"}

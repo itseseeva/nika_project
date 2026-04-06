@@ -3,9 +3,9 @@ import shutil
 import json
 import os
 
-PHOTO_DIR = r"E:\Users\username\Desktop\nika\фото"
-PUBLIC_PRODUCTS_DIR = r"E:\Users\username\Desktop\nika\frontend\public\products"
-DB_PATH = r"E:\Users\username\Desktop\nika\backend\nika.db"
+PHOTO_DIR = r"E:\Users\username\Desktop\promsell\фото"
+PUBLIC_PRODUCTS_DIR = r"E:\Users\username\Desktop\promsell\frontend\public\products"
+DB_PATH = r"E:\Users\username\Desktop\promsell\backend\promsell.db"
 
 PHOTO_MAP = {
     "Короб №19 пятислойный, 600×400×400 мм": "Короб №19 пятислойный, мм",

@@ -43,6 +43,7 @@ const STATS = [
 ];
 
 export function AuthFullPage() {
+    const currentLang: string = 'ru';
     const { isAuthPageOpen, setAuthPageOpen, setToken, setUser } = useAuthStore();
     const [step, setStep] = useState<'email' | 'code'>('email');
     const [email, setEmail] = useState('');
@@ -158,7 +159,7 @@ export function AuthFullPage() {
                                     <div className="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
                                         <Award className="w-5 h-5 text-white" />
                                     </div>
-                                    <span className="text-white font-bold text-lg tracking-wide">ООО «НИКА»</span>
+                                    <span className="text-white font-bold text-lg tracking-wide">{currentLang === 'en' ? 'Promsell LLC' : 'ООО «Промселл»'}</span>
                                 </div>
 
                                 <motion.h1
@@ -250,7 +251,7 @@ export function AuthFullPage() {
                             <div className="lg:hidden mb-8 text-center">
                                 <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-sm font-semibold px-4 py-2 rounded-full mb-4">
                                     <Award className="w-4 h-4" />
-                                    ООО «НИКА»
+                                    {currentLang === 'en' ? 'Promsell LLC' : 'ООО «Промселл»'}
                                 </div>
                                 <p className="text-gray-500 text-sm">Надёжный поставщик спецодежды и СИЗ</p>
                             </div>

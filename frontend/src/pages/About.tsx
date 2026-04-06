@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Building2, FileText } from 'lucide-react';
 
 export function About() {
+    const currentLang: string = 'ru';
     return (
         <div className="bg-transparent min-h-screen pt-20 sm:pt-24 pb-10 sm:pb-16">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,7 +13,7 @@ export function About() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-4 sm:mb-6"
                     >
-                        О компании НИКА
+                        {currentLang === 'en' ? 'About Promsell' : 'О компании Промселл'}
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 10 }}
@@ -20,8 +21,10 @@ export function About() {
                         transition={{ delay: 0.1 }}
                         className="text-base sm:text-lg text-gray-500 leading-relaxed"
                     >
-                        ООО «НИКА» — надёжный поставщик спецодежды, средств индивидуальной защиты и упаковочных материалов для бизнеса.
-                        Мы работаем напрямую с производителями и обеспечиваем предприятия качественной продукцией с быстрой отгрузкой.
+                        {currentLang === 'en' 
+                            ? 'Promsell LLC is a reliable supplier of workwear, personal protective equipment and packaging materials for business.' 
+                            : 'ООО «Промселл» — надёжный поставщик спецодежды, средств индивидуальной защиты и упаковочных материалов для бизнеса.'}
+                        {currentLang === 'en' ? 'We work directly with manufacturers and provide enterprises with high-quality products with fast shipping.' : 'Мы работаем напрямую с производителями и обеспечиваем предприятия качественной продукцией с быстрой отгрузкой.'}
                     </motion.p>
                 </div>
 
@@ -31,13 +34,13 @@ export function About() {
                         animate={{ opacity: 1, x: 0 }}
                         className="space-y-6"
                     >
-                        <h2 className="text-2xl font-bold text-gray-900">Наши контакты</h2>
+                        <h2 className="text-2xl font-bold text-gray-900">{currentLang === 'en' ? 'Our Contacts' : 'Наши контакты'}</h2>
 
                         <div className="flex bg-gray-50 p-6 rounded-2xl border border-gray-100">
                             <MapPin className="w-8 h-8 text-blue-600 flex-shrink-0 mt-1" />
                             <div className="ml-4">
-                                <h3 className="text-lg font-semibold text-gray-900">Склад и офис</h3>
-                                <p className="mt-1 text-gray-500 text-sm sm:text-base">197374, г. Санкт-Петербург,<br />ул. Савушкина, д. 89 литер А<br /><span className="text-xs sm:text-sm text-gray-400">(самовывоз со склада)</span></p>
+                                <h3 className="text-lg font-semibold text-gray-900">{currentLang === 'en' ? 'Warehouse and Office' : 'Склад и офис'}</h3>
+                                <p className="mt-1 text-gray-500 text-sm sm:text-base">{currentLang === 'en' ? '89 Savushkina St, Litera A, Saint Petersburg, 197374' : '197374, г. Санкт-Петербург, ул. Савушкина, д. 89 литер А'}<br /><span className="text-xs sm:text-sm text-gray-400">({currentLang === 'en' ? 'pickup from warehouse' : 'самовывоз со склада'})</span></p>
                             </div>
                         </div>
 
@@ -87,12 +90,12 @@ export function About() {
                         <div className="bg-blue-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-blue-500/20">
                             <h3 className="text-xl font-bold mb-5 flex items-center gap-2">
                                 <FileText className="w-5 h-5" />
-                                Юридические реквизиты
+                                {currentLang === 'en' ? 'Legal Details' : 'Юридические реквизиты'}
                             </h3>
                             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-sm">
                                 <div>
                                     <dt className="opacity-70 uppercase tracking-wider text-xs mb-1">Полное наименование</dt>
-                                    <dd className="font-semibold">ООО «НИКА»</dd>
+                                    <dd className="font-semibold">{currentLang === 'en' ? 'Promsell LLC' : 'ООО «Промселл»'}</dd>
                                 </div>
                                 <div>
                                     <dt className="opacity-70 uppercase tracking-wider text-xs mb-1">Генеральный директор</dt>
@@ -116,7 +119,7 @@ export function About() {
 
                         {/* Условия поставки */}
                         <div className="bg-gray-50 rounded-3xl p-6 sm:p-8 border border-gray-100">
-                            <h3 className="text-xl font-bold text-gray-900 mb-5">Условия работы</h3>
+                            <h3 className="text-xl font-bold text-gray-900 mb-5">{currentLang === 'en' ? 'Working Terms' : 'Условия работы'}</h3>
                             <ul className="space-y-3 text-gray-600 text-sm">
                                 <li className="flex items-start gap-3">
                                     <div className="w-2 h-2 bg-blue-600 rounded-full mt-1.5 flex-shrink-0"></div>
@@ -151,7 +154,7 @@ export function About() {
                 <div className="mt-16">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                         <MapPin className="w-6 h-6 text-blue-600" />
-                        Мы на карте
+                        {currentLang === 'en' ? 'We are on the map' : 'Мы на карте'}
                     </h2>
                     <div className="rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-gray-100 h-[320px] sm:h-[480px]">
                         <iframe
@@ -160,7 +163,7 @@ export function About() {
                             height="100%"
                             frameBorder="0"
                             allowFullScreen
-                            title="Карта склада ООО НИКА"
+                            title={currentLang === 'en' ? 'Warehouse map of Promsell LLC' : 'Карта склада ООО Промселл'}
                             style={{ border: 0 }}
                         />
                     </div>

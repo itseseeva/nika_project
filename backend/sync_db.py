@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
 
-PG_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:Kohkau11999@postgres:5432/nika")
-SQLITE_DB = os.path.join(os.path.dirname(__file__), "data", "nika.db")
+PG_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:Kohkau11999@postgres:5432/promsell")
+SQLITE_DB = os.path.join(os.path.dirname(__file__), "data", "promsell.db")
 
 async def sync():
     if not os.path.exists(SQLITE_DB):

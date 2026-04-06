@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 from sqlalchemy.orm import declarative_base
 
 # Connection string for PostgreSQL
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./data/nika.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./data/promsell.db")
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 

@@ -13,8 +13,8 @@ from database import AsyncSessionLocal
 import models
 
 # ── Пути
-SRC_PHOTOS = r"E:\Users\username\Desktop\nika\новые_фото"
-DST_PHOTOS = r"E:\Users\username\Desktop\nika\frontend\public\products"
+SRC_PHOTOS = r"E:\Users\username\Desktop\promsell\новые_фото"
+DST_PHOTOS = r"E:\Users\username\Desktop\promsell\frontend\public\products"
 
 os.makedirs(DST_PHOTOS, exist_ok=True)
 

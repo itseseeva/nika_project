@@ -290,6 +290,7 @@ function RegisterForm({ onDone, onSwitchTab, googleLoading, onGoogle }: {
 // ГЛАВНАЯ СТРАНИЦА ВХОДА
 // ══════════════════════════════════════════════════
 export function LoginPage() {
+    const currentLang: string = 'ru';
     const navigate = useNavigate();
     const location = useLocation();
     const { setToken, setUser, user } = useAuthStore();
@@ -340,9 +341,9 @@ export function LoginPage() {
                 <div className="relative z-10 flex flex-col h-full p-12">
                     {/* Logo + Brand */}
                     <div className="flex items-center gap-4 mb-auto">
-                        <img src="/photo_2026-02-28_20-15-26.jpg" alt="НИКА" className="w-14 h-14 rounded-2xl object-contain border-2 border-white/20 shadow-xl" />
+                        <img src="/photo_2026-02-28_20-15-26.jpg" alt={currentLang === 'en' ? 'Promsell' : 'Промселл'} className="w-14 h-14 rounded-2xl object-contain border-2 border-white/20 shadow-xl" />
                         <div>
-                            <div className="text-white font-extrabold text-xl tracking-tight">ООО «НИКА»</div>
+                            <div className="text-white font-extrabold text-xl tracking-tight">{currentLang === 'en' ? 'Promsell LLC' : 'ООО «Промселл»'}</div>
                             <div className="text-blue-300 text-xs">Профессиональные B2B поставки</div>
                         </div>
                     </div>
@@ -356,7 +357,7 @@ export function LoginPage() {
                         >
                             Интернет-магазин <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-cyan-300">
-                                НИКА
+                                {currentLang === 'en' ? 'Promsell' : 'Промселл'}
                             </span>
                         </motion.h1>
                         <motion.p
@@ -364,8 +365,7 @@ export function LoginPage() {
                             transition={{ delay: 0.15, duration: 0.8 }}
                             className="text-blue-200 text-lg leading-relaxed max-w-md mb-10"
                         >
-                            Спецодежда, автозапчасти и упаковочные материалы.
-                            Прямые поставки от производителей без лишних наценок.
+                            {currentLang === 'en' ? 'Workwear, auto parts and packaging materials. Direct supplies from manufacturers.' : 'Спецодежда, автозапчасти и упаковочные материалы. Прямые поставки от производителей без лишних наценок.'}
                         </motion.p>
 
                         {/* Features */}
@@ -404,9 +404,9 @@ export function LoginPage() {
             <div className="flex-1 flex flex-col bg-white overflow-y-auto">
                 {/* Mobile header */}
                 <div className="lg:hidden flex items-center gap-3 px-6 pt-8 pb-4 border-b border-gray-100">
-                    <img src="/photo_2026-02-28_20-15-26.jpg" alt="НИКА" className="w-10 h-10 rounded-xl object-contain border border-gray-200 shadow" />
+                    <img src="/photo_2026-02-28_20-15-26.jpg" alt={currentLang === 'en' ? 'Promsell' : 'Промселл'} className="w-10 h-10 rounded-xl object-contain border border-gray-200 shadow" />
                     <div>
-                        <div className="font-extrabold text-gray-900 text-base">ООО «НИКА»</div>
+                        <div className="font-extrabold text-gray-900 text-base">{currentLang === 'en' ? 'Promsell LLC' : 'ООО «Промселл»'}</div>
                         <div className="text-gray-400 text-xs">Интернет-магазин</div>
                     </div>
                 </div>
@@ -459,7 +459,7 @@ export function LoginPage() {
 
                 {/* Footer */}
                 <div className="px-8 py-5 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
-                    <span>© 2025 ООО «НИКА»</span>
+                    <span>© 2025 {currentLang === 'en' ? 'Promsell LLC' : 'ООО «Промселл»'}</span>
                     <span>г. Санкт-Петербург, ул. Савушкина 89 лит А · 8 (965) 008-79-46</span>
                 </div>
             </div>

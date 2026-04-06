@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Starting NIKA E-commerce..."
+echo "Starting Promsell E-commerce..."
 
 echo "Starting Backend..."
 (cd backend && source venv/Scripts/activate && uvicorn main:app --reload --port 8000) &

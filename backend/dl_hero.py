@@ -13,7 +13,7 @@ CANDIDATES = [
     "https://www.avangard-sp.ru/upload/resize_cache/iblock/94e/1100_1000_1/94eac186fea5b478121064dbb41a403d.jpg",
 ]
 
-dest = r'E:\Users\username\Desktop\nika\frontend\public\hero_bg.jpg'
+dest = r'E:\Users\username\Desktop\promsell\frontend\public\hero_bg.jpg'
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     'Referer': 'https://www.avangard-sp.ru/',
