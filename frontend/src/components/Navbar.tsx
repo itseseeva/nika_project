@@ -26,10 +26,15 @@ export function Navbar() {
         localStorage.setItem('adminAddedProductsCount', val.toString());
     };
 
+    const searchParams = new URLSearchParams(location.search);
+    const activeTab = searchParams.get('tab') || 'supply';
+
     const navLinks = [
-        { name: 'Главная', path: '/' },
-        { name: 'Каталог', path: '/catalog' },
-        { name: 'О компании', path: '/about' },
+        { name: 'B2B Поставки', path: '/?tab=supply', isTab: true, tabName: 'supply' },
+        { name: 'Поставки продуктов', path: '/?tab=horeca', isTab: true, tabName: 'horeca' },
+        { name: 'Сотрудничество', path: '/?tab=careers', isTab: true, tabName: 'careers' },
+        { name: 'Каталог', path: '/catalog', isTab: false },
+        { name: 'О компании', path: '/about', isTab: false },
     ];
 
     return (
@@ -48,7 +53,9 @@ export function Navbar() {
                         colors={['#3b82f6', '#1d4ed8']}
                         accentColor="#3b82f6"
                         items={[
-                            { label: 'Главная', ariaLabel: 'Главная', link: '/' },
+                            { label: 'B2B Поставки', ariaLabel: 'B2B Поставки', link: '/?tab=supply' },
+                            { label: 'Поставки продуктов', ariaLabel: 'Поставки продуктов', link: '/?tab=horeca' },
+                            { label: 'Сотрудничество', ariaLabel: 'Сотрудничество', link: '/?tab=careers' },
                             { label: 'Каталог', ariaLabel: 'Каталог', link: '/catalog' },
                             { label: 'О компании', ariaLabel: 'О компании', link: '/about' },
                         ]}
@@ -77,9 +84,9 @@ export function Navbar() {
                         {/* Desktop Nav */}
                         <nav className="hidden md:flex items-center gap-0">
                             {navLinks.map((link) => {
-                                const isActive =
-                                    location.pathname === link.path ||
-                                    (link.path !== '/' && location.pathname.startsWith(link.path));
+                                const isActive = link.isTab 
+                                    ? (location.pathname === '/' && activeTab === link.tabName)
+                                    : (location.pathname.startsWith(link.path));
                                 return (
                                     <Link
                                         key={link.name}

@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight, ShieldCheck, Truck, Package, Eye, EyeOff, Upload } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, ShieldCheck, Truck, Package, Eye, EyeOff, Upload, Briefcase, ChefHat, Building2 } from 'lucide-react';
 import { useEffect, useState, useRef, useLayoutEffect } from 'react';
+import { CareersTab } from '../components/hub/CareersTab';
+import { HorecaTab } from '../components/hub/HorecaTab';
 import { api } from '../utils/api';
 import { AddToCartButton } from '../components/AddToCartButton';
 import { useAuthStore } from '../store/useAuthStore';
@@ -11,6 +13,11 @@ const GAP = 16;
 const TRANSITION_MS = 550;
 
 export function Home() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const searchParams = new URLSearchParams(location.search);
+    const activeTab = searchParams.get('tab') || 'supply';
+
     const [categories, setCategories] = useState<any[]>([]);
     const [bestsellers, setBestsellers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -131,8 +138,52 @@ export function Home() {
     }, [bestsellers.length]);
 
     return (
-        <div className="bg-transparent">
-            {/* Hero Section */}
+        <div className="bg-transparent flex flex-col min-h-screen">
+            {/* HUB TABS SWITCHER */}
+            <div className="pt-24 pb-8 sm:pt-32 sm:pb-12 bg-white flex justify-center border-b border-gray-100 z-20 relative shadow-sm">
+                <div className="flex bg-gray-100/80 p-1.5 sm:p-2 rounded-2xl gap-2 shadow-inner overflow-x-auto max-w-full mx-4 no-scrollbar">
+                    <button 
+                        onClick={() => navigate('/?tab=supply')}
+                        className={`relative px-5 py-3 sm:px-8 sm:py-4 rounded-xl flex items-center gap-3 text-sm sm:text-base font-bold transition-all whitespace-nowrap ${activeTab === 'supply' ? 'text-blue-700 shadow-md' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200/50'}`}
+                    >
+                        {activeTab === 'supply' && <motion.div layoutId="activeTabBg" className="absolute inset-0 bg-white rounded-xl" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />}
+                        <Building2 className="w-5 h-5 relative z-10" />
+                        <span className="relative z-10">B2B Поставки</span>
+                    </button>
+                    
+                    <button 
+                        onClick={() => navigate('/?tab=horeca')}
+                        className={`relative px-5 py-3 sm:px-8 sm:py-4 rounded-xl flex items-center gap-3 text-sm sm:text-base font-bold transition-all whitespace-nowrap ${activeTab === 'horeca' ? 'text-amber-700 shadow-md' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200/50'}`}
+                    >
+                        {activeTab === 'horeca' && <motion.div layoutId="activeTabBg" className="absolute inset-0 bg-white rounded-xl" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />}
+                        <ChefHat className="w-5 h-5 relative z-10" />
+                        <span className="relative z-10">Поставки продуктов</span>
+                    </button>
+                    
+                    <button 
+                        onClick={() => navigate('/?tab=careers')}
+                        className={`relative px-5 py-3 sm:px-8 sm:py-4 rounded-xl flex items-center gap-3 text-sm sm:text-base font-bold transition-all whitespace-nowrap ${activeTab === 'careers' ? 'text-purple-700 shadow-md' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200/50'}`}
+                    >
+                        {activeTab === 'careers' && <motion.div layoutId="activeTabBg" className="absolute inset-0 bg-white rounded-xl" transition={{ type: "spring", bounce: 0.2, duration: 0.6 }} />}
+                        <Briefcase className="w-5 h-5 relative z-10" />
+                        <span className="relative z-10">Сотрудничество</span>
+                    </button>
+                </div>
+            </div>
+
+            <div className="flex-1 relative">
+                <AnimatePresence mode="wait">
+                    {activeTab === 'careers' && <CareersTab key="careers" />}
+                    {activeTab === 'horeca' && <HorecaTab key="horeca" />}
+                    {activeTab === 'supply' && (
+                        <motion.div 
+                            key="supply"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            {/* Hero Section */}
             <section className="relative pt-20 pb-14 sm:pt-32 sm:pb-20 lg:pt-48 lg:pb-32 overflow-hidden flex items-center min-h-[70vh] sm:min-h-[80vh]">
                 <div className="absolute inset-0">
                     <img
@@ -470,6 +521,10 @@ export function Home() {
                     )}
                 </div>
             </section>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
         </div>
     );
 }

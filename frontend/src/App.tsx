@@ -82,9 +82,7 @@ function App() {
                             />
                         </Link>
                         <p className="text-sm text-gray-600 max-w-sm leading-relaxed">
-                            {currentLang === 'en' 
-                                ? 'Reliable partner in B2B supplies. We provide enterprises with quality workwear, proven auto parts and durable packaging materials.' 
-                                : 'Надежный партнер в сфере B2B-поставок. Мы обеспечиваем предприятия качественной спецодеждой, проверенными автозапчастями и прочными упаковочными материалами.'}
+                            Многопрофильная компания и ваш надежный партнер. Мы комплексно обеспечиваем предприятия: от качественной спецодеждой и проверенных автозапчастей, до бесперебойных поставок свежих продуктов питания для кафе и ресторанов.
                         </p>
                     </div>
                     <div>
