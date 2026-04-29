@@ -219,7 +219,7 @@ export function CareersTab() {
                 </div>
 
                 <div className="mt-8 text-center text-gray-500">
-                    <p>С уважением,<br/><strong>Генеральный директор Крецу В.</strong></p>
+                    <p>С уважением,<br/><strong>Генеральный директор Алексей Бочаров</strong></p>
                 </div>
             </div>
 

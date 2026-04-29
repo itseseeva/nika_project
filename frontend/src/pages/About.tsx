@@ -99,7 +99,7 @@ export function About() {
                                 </div>
                                 <div>
                                     <dt className="opacity-70 uppercase tracking-wider text-xs mb-1">Генеральный директор</dt>
-                                    <dd className="font-semibold">Бочаров Алексей Владимирович</dd>
+                                    <dd className="font-semibold">Алексей Бочаров</dd>
                                 </div>
                                 <div>
                                     <dt className="opacity-70 uppercase tracking-wider text-xs mb-1">ИНН / КПП</dt>

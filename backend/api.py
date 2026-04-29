@@ -278,7 +278,7 @@ async def chat_with_aleksey(request: ChatRequest):
 
     headers = {
         "Authorization": f"Bearer {openrouter_key}",
-        "HTTP-Referer": os.getenv("FRONTEND_URL", "https://nikasolutions.shop"),
+        "HTTP-Referer": os.getenv("FRONTEND_URL", "https://promsell.store"),
         "X-Title": "NIKA B2B", 
         "Content-Type": "application/json"
     }
